@@ -2,7 +2,7 @@ name: Express 快速入门教程
 id: 284e3de9ca35fbf9fc67e8646bc04e1d
 github: 'https://github.com/mRcfps/express_resume'
 created: '2019-11-26T12:31:31.116Z'
-updated: 2019-11-30T10:53:31.674Z
+updated: 2019-11-30T14:15:20.834Z
 topics:
   - Express
 categories:
@@ -96,6 +96,10 @@ steps:
         - Express 框架的两大核心概念：路由和中间件
 
         - 使用模板引擎渲染页面，并接入 Express 框架中
+
+        - 使用 Express 的静态资源服务
+
+        - 编写自定义的错误处理函数
 
 
         ::: info
@@ -515,7 +519,7 @@ steps:
         display: false
       - file: .gitignore
   - name: 处理 404 和服务器错误
-    commit: e3ab055
+    commit: '5015883'
     diff:
       - file: server.js
         display: true
@@ -624,8 +628,17 @@ steps:
         ![](tuture-assets/raw-broken.png)
 
 
-        服务器直接返回了出错的调用栈！很明显，向用户返回这样的调用栈不仅体验糟糕，而且还有很大的风险——增加了被不怀好意者攻击的风险。实际上，Express
-        的默认错误处理机制可以通过设置 `NODE_ENV` 来进行切换。如果我们将其设置为生产环境 `production`：
+        ::: danger
+
+        **危险！**
+
+
+        服务器直接返回了出错的调用栈！很明显，向用户返回这样的调用栈不仅体验糟糕，而且大大增加了被攻击的风险。
+
+        :::
+
+
+        实际上，Express 的默认错误处理机制可以通过设置 `NODE_ENV` 来进行切换。如果我们将其设置为生产环境 `production`：
 
 
         ```bash
@@ -670,16 +683,6 @@ steps:
 
         至此，这篇教程也就结束了。所完成的网站的确很简单，但是希望你能从中学到 Express
         的两大精髓：路由和中间件。掌握了这两大概念之后，后续进阶教程的学习也会轻松很多哦！
-    outdated: true
-  - name: 处理 404 和服务器错误
-    commit: '5015883'
-    diff:
-      - file: server.js
-        display: true
-      - file: views/404.hbs
-        display: true
-      - file: views/500.hbs
-        display: true
 description: >-
   Node.js 已经成为 Web 后台开发圈一股不容忽视的力量，凭借其良好的异步性能、丰富的 npm 库以及 JavaScript
   语言方面的优势，已经成为了很多大公司开发其后台架构的重要技术之一，而 Express
