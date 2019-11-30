@@ -26,6 +26,19 @@ app.get('/contact', (req, res) => {
   res.render('contact');
 })
 
+app.get('/broken', (req, res) => {
+  throw new Error('Broken!');
+});
+
+app.use('*', (req, res) => {
+  res.status(404).render('404', { url: req.originalUrl });
+});
+
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).render('500');
+});
+
 app.listen(port, () => {
   console.log(`Server running at http://${hostname}:${port}/`);
 });
