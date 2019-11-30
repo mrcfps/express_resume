@@ -2,7 +2,7 @@ name: Express 快速入门教程
 id: 284e3de9ca35fbf9fc67e8646bc04e1d
 github: 'https://github.com/mRcfps/express_resume'
 created: '2019-11-26T12:31:31.116Z'
-updated: 2019-11-28T12:28:29.488Z
+updated: 2019-11-30T10:53:31.674Z
 topics:
   - Express
 categories:
@@ -215,8 +215,9 @@ steps:
         ### 路由机制
 
 
-        客户端（包括 Web 前端、移动端等等）向服务器发起请求时包括两个元素：路径（URI）以及 HTTP 请求方法（包括 GET、POST
-        等等）。路径和请求方法合起来一般被称为 API 端点（Endpoint）。而服务器根据客户端访问的端点选择相应处理逻辑的机制就叫做路由。
+        客户端（包括 Web 前端、移动端等等）向服务器发起请求时包括两个元素：**路径**（URI）以及 **HTTP 请求方法**（包括
+        GET、POST 等等）。路径和请求方法合起来一般被称为 API
+        端点（Endpoint）。而服务器根据客户端访问的端点选择相应处理逻辑的机制就叫做路由。
 
 
         在 Express 中，定义路由只需按下面这样的形式：
@@ -452,21 +453,233 @@ steps:
         npm install hbs
 
         ```
-      post: >-
+      post: |-
         最后，我们再次运行服务器，访问我们的主页，可以看到：
-
 
         ![](tuture-assets/image-e84924743c16c697.png)
 
-
         点击”联系方式“，跳转到相应页面：
 
-
         ![](tuture-assets/image-1c047a0962100256.png)
+  - name: 添加静态文件服务
+    commit: bb79800
+    explain:
+      pre: >-
+        通常网站需要提供静态文件服务，例如图片、CSS文件、JS文件等等，而 Express 已经自带了静态文件服务中间件
+        `express.static`，使用起来非常方便。
+      post: |-
+        再次运行服务器，并访问我们的网站。首页如下：
+
+        ![](tuture-assets/image-9c79a5c5c2d412ab.png)
+
+        联系我们页面如下：
+
+        ![](tuture-assets/image-2599d0bb1e478436.png)
+
+        可以看到样式表和图片都成功加载出来了！
+    diff:
+      - file: server.js
+        display: true
+        explain:
+          pre: 例如，我们添加静态文件中间件如下，并指定静态资源根目录为 `public`：
+          post: |-
+            假设项目的 public 目录里面有这些静态文件：
+
+            ```text
+            public
+            ├── css
+            │   └── style.css
+            └── img
+                └── tuture-logo.png
+            ```
+
+            就可以分别通过以下路径访问：
+
+            ```text
+            http://localhost:3000/css/style.css
+            http://localhost:3000/img/tuture-logo.png
+            ```
+      - file: public/css/style.css
+        display: true
+        explain:
+          pre: 样式文件 public/css/style.css 的代码如下（直接复制粘贴即可）：
+      - file: views/index.hbs
+        display: true
+        explain:
+          pre: 在首页模板 views/index.hbs 中加入 CSS 样式表和图片：
+      - file: views/contact.hbs
+        display: true
+        explain:
+          pre: 在联系模板 views/contact.hbs 中加入样式表：
+      - file: public/img/tuture-logo.png
+        display: false
+      - file: .gitignore
+  - name: 处理 404 和服务器错误
+    commit: e3ab055
+    diff:
+      - file: server.js
+        display: true
+        explain:
+          pre: |-
+            ### 实现自定义处理逻辑
+
+            通过上面的讲解，实现自定义的 404 和错误处理逻辑也就非常简单了。在 server.js 中添加如下代码：
+          post: >-
+
+            ::: info
+
+            **提示**
 
 
-        这篇教程讲的东西虽然比较少，项目也很简单，但是希望你能从中学到 Express
+            在编写处理 404 的逻辑时，我们用到了模板引擎中的变量插值功能。具体而言，在 `res.render`
+            方法中将需要传给模板的数据作为第二个参数（例如这里的 `{ url: req.originalUrl }`
+            传入了用户访问的路径），在模板中就可以通过 `{{ url }}` 获取数据了。
+
+            :::
+      - file: views/404.hbs
+        display: true
+        explain:
+          pre: 404 和 500 的模板代码分别如下：
+      - file: views/500.hbs
+        display: true
+    explain:
+      pre: >-
+        人有悲欢离合，月有阴晴圆缺，服务器也有出错的时候。HTTP 错误一般分为两大类：
+
+
+        - 客户端方面的错误（状态码 4xx），例如访问了不存在的页面（404）、权限不够（403）
+
+        - 服务器方面的错误（状态码5xx），例如服务器内部出现错误及异常等等
+
+
+        如果你打开服务器，访问一个不存在的路径，例如 `localhost:3000/what`，就会出现这样的页面：
+
+
+        ![](tuture-assets/raw-404.png)
+
+
+        很显然，这样的用户体验是很糟糕的。
+
+
+        在这一节中，我们将讲解如何在 Express 框架中处理 404（页面不存在）及
+        500（服务器内部错误）。在此之前，我们要升级一下对中间件的概念，如下图所示：
+
+
+        ![](tuture-assets/middleware-new.png)
+
+
+        这张示意图和之前的图有两点重大区别：
+
+
+        - 每个路由定义本质上是一个**中间件**（更准确地说是一个**中间件容器**，可包含多个中间件），当 URI
+        匹配成功时直接返回响应，匹配失败时继续执行下一个路由
+
+        - 每个中间件（包括路由）不仅可以调用 `next` 函数向下传递、直接返回响应，还可以**抛出异常**
+
+
+        从这张图就可以很清晰地看出怎么实现 404 和服务器错误的处理了：
+
+
+        - 对于 404，只需在所有路由之后再加一个中间件，用来接收所有路由均匹配失败的请求
+
+        - 对于错误处理，前面所有中间件抛出异常时都会进入错误处理函数，可以使用 Express 自带的，也可以自定。
+
+
+        ### 处理 404
+
+
+        在 Express 中，可以通过中间件的方式处理访问不存在的路径：
+
+
+        ```javascript
+
+        app.use('*', (req, res) => {
+          // ...
+        });
+
+        ```
+
+
+        `*` 表示匹配任何路径。将此中间件放在所有路由后面，即可捕获所有访问路径不存在的请求。
+
+
+        ### 处理内部错误
+
+
+        Express 已经自带了错误处理机制，我们先来体验一下。在 server.js 中添加下面这条”坏掉“的路由（模拟现实中出错的情形）：
+
+
+        ```javascript
+
+        app.get('/broken', (req, res) => {
+          throw new Error('Broken!');
+        });
+
+        ```
+
+
+        然后开启服务器，访问 `localhost:3000/broken`：
+
+
+        ![](tuture-assets/raw-broken.png)
+
+
+        服务器直接返回了出错的调用栈！很明显，向用户返回这样的调用栈不仅体验糟糕，而且还有很大的风险——增加了被不怀好意者攻击的风险。实际上，Express
+        的默认错误处理机制可以通过设置 `NODE_ENV` 来进行切换。如果我们将其设置为生产环境 `production`：
+
+
+        ```bash
+
+        NODE_ENV=production node server.js
+
+        ```
+
+
+        这时候访问 `localhost:3000/broken` 就会直接返回 Internal Server
+        Error（服务器内部错误），不会显示任何错误信息：
+
+
+        ![](tuture-assets/image-87ddca4fce3d1199.png)
+
+
+        体验还是很不好，更理想的情况是能够返回一个友好的自定义页面。这可以通过 Express 的自定义错误处理函数来解决，错误处理函数的形式如下：
+
+
+        ```javascript
+
+        function (err, req, res, next) {
+          // 处理错误逻辑
+        }
+
+        ```
+
+
+        和普通的中间件函数相比，多了第一个参数，也就是 `err` 异常对象。
+      post: >-
+        再次运行服务器，访问一个不存在的路径：
+
+
+        ![](tuture-assets/image-35971965064cba0d.png)
+
+
+        访问 `localhost:3000/broken`：
+
+
+        ![](tuture-assets/image-cc99a79709abc9ba.png)
+
+
+        至此，这篇教程也就结束了。所完成的网站的确很简单，但是希望你能从中学到 Express
         的两大精髓：路由和中间件。掌握了这两大概念之后，后续进阶教程的学习也会轻松很多哦！
+    outdated: true
+  - name: 处理 404 和服务器错误
+    commit: '5015883'
+    diff:
+      - file: server.js
+        display: true
+      - file: views/404.hbs
+        display: true
+      - file: views/500.hbs
+        display: true
 description: >-
   Node.js 已经成为 Web 后台开发圈一股不容忽视的力量，凭借其良好的异步性能、丰富的 npm 库以及 JavaScript
   语言方面的优势，已经成为了很多大公司开发其后台架构的重要技术之一，而 Express
