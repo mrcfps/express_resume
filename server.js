@@ -16,6 +16,7 @@ function loggingMiddleware(req, res, next) {
 }
 
 app.use(loggingMiddleware);
+app.use(express.static('public'));
 
 app.get('/', (req, res) => {
   res.render('index');

@@ -1,0 +1,15 @@
+body {
+  text-align: center;
+}
+
+h1 {
+  color: blue;
+}
+
+img {
+  border: 1px dashed grey;
+}
+
+a {
+  color: blueviolet;
+}
