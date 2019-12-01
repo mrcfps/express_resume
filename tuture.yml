@@ -2,7 +2,7 @@ name: Express 快速入门教程
 id: 284e3de9ca35fbf9fc67e8646bc04e1d
 github: 'https://github.com/mRcfps/express_resume'
 created: '2019-11-26T12:31:31.116Z'
-updated: 2019-11-30T14:15:20.834Z
+updated: 2019-12-01T00:52:18.373Z
 topics:
   - Express
 categories:
@@ -26,7 +26,7 @@ steps:
             Node.js，可以去[官方网站](https://nodejs.org/)下载安装包。
 
 
-            创建一个文件夹 express_resume，并进入其中：
+            我们将实现一个个人简历网站。创建一个文件夹 express_resume，并进入其中：
 
 
             ```bash
@@ -90,8 +90,6 @@ steps:
 
         读完这篇教程后，你将学会
 
-
-        - Node.js 开发基础技能，包括require 机制、npm 工具的基本使用等等
 
         - Express 框架的两大核心概念：路由和中间件
 
@@ -507,6 +505,9 @@ steps:
         display: true
         explain:
           pre: 样式文件 public/css/style.css 的代码如下（直接复制粘贴即可）：
+          post: >-
+            图片文件可通过这个 GitHub
+            上的[链接](https://github.com/mRcfps/express_resume/raw/master/public/img/tuture-logo.png)下载。
       - file: views/index.hbs
         display: true
         explain:
