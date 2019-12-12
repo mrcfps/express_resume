@@ -2,7 +2,7 @@ name: Express 快速入门教程
 id: 284e3de9ca35fbf9fc67e8646bc04e1d
 github: 'https://github.com/mRcfps/express_resume'
 created: '2019-11-26T12:31:31.116Z'
-updated: 2019-12-01T00:52:18.373Z
+updated: 2019-12-12T10:50:28.385Z
 topics:
   - Express
 categories:
@@ -67,6 +67,14 @@ steps:
             ![](tuture-assets/image.png)
     explain:
       pre: >+
+        ::: primary
+
+        此教程属于[Node.js
+        后端工程师学习路线](https://tuture.co/roadmaps/node/)的一部分，点击可查看全部内容。
+
+        :::
+
+
         自从 Ryan Dahl 在 2009 年的 JSConf 正式推出 Node.js
         平台后，这门技术的使用率就如同坐了火箭一般迅速上升，成为了最受喜爱的后端开发平台之一，而 Express 则是其中最为耀眼的 Web
         框架。在在正式开始这篇教程之前，我们将列举一下这篇教程所需要的预备知识和学习目标。
@@ -684,6 +692,14 @@ steps:
 
         至此，这篇教程也就结束了。所完成的网站的确很简单，但是希望你能从中学到 Express
         的两大精髓：路由和中间件。掌握了这两大概念之后，后续进阶教程的学习也会轻松很多哦！
+
+
+        ::: primary
+
+        此教程属于[Node.js
+        后端工程师学习路线](https://tuture.co/roadmaps/node/)的一部分，点击可查看全部内容。
+
+        :::
 description: >-
   Node.js 已经成为 Web 后台开发圈一股不容忽视的力量，凭借其良好的异步性能、丰富的 npm 库以及 JavaScript
   语言方面的优势，已经成为了很多大公司开发其后台架构的重要技术之一，而 Express
