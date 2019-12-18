@@ -26,6 +26,10 @@ app.get('/contact', (req, res) => {
   res.render('contact');
 })
 
+app.get('/api', (req, res) => {
+  res.json({ name: '图雀社区', website: 'https://tuture.co' });
+});
+
 app.get('/broken', (req, res) => {
   throw new Error('Broken!');
 });
