@@ -1,8 +1,9 @@
 name: 一杯茶的时间，上手 Express 框架开发
 id: cd5b993
 github: 'https://github.com/mRcfps/express_resume'
+cover: tuture-assets/cover.png
 created: '2019-11-26T12:31:31.116Z'
-updated: 2019-12-18T02:43:36.436Z
+updated: 2019-12-18T08:23:07.747Z
 topics:
   - Express
 categories:
@@ -497,8 +498,7 @@ steps:
         **提示**
 
 
-        如果你不了解模板引擎，不用担心，这篇教程几乎不需要用到它的高级功能，你只需理解成一个“升级版的 HTML
-        文档”即可。如果你感兴趣，[这篇文章](https://div.io/topic/758)是很好的介绍。
+        如果你不了解模板引擎，不用担心，这篇教程几乎不需要用到它的高级功能，你只需理解成一个“升级版的 HTML 文档”即可。
 
         :::
 
@@ -724,7 +724,7 @@ steps:
         Error（服务器内部错误），不会显示任何错误信息：
 
 
-        ![](tuture-assets/image-87ddca4fce3d1199.png)
+        ![](tuture-assets/raw-500.png)
 
 
         体验还是很不好，更理想的情况是能够返回一个友好的自定义页面。这可以通过 Express 的自定义错误处理函数来解决，错误处理函数的形式如下：
@@ -765,7 +765,8 @@ steps:
             ![](tuture-assets/api.png)
 
 
-            或者你可以用 Postman 或 Curl 访问，也能看到想要的数据哦。
+            或者你可以用 [Postman](https://www.cnblogs.com/fnng/p/9136434.html) 或
+            [Curl](https://man.linuxde.net/curl) 访问，也能看到想要的数据哦。
       - file: tuture.yml
     explain:
       post: >-
@@ -787,25 +788,25 @@ steps:
 
         ```javascript
 
-        res.json({ name: 'iPhone XX', price: 99999 });
+        res.json({ name: '百万年薪', price: 996 });
 
         ```
 
 
-        会返回 JSON 数据 `{ "name": "iPhone XX", "price": 99999 }`，状态码默认为
-        200。我们还可以指定状态码，例如：
+        会返回 JSON 数据 `{ "name": "百万年薪", "price": 996 }`，状态码默认为 200。我们还可以指定状态码，例如：
 
 
         ```javascript
 
-        res.status(403).json({ error: '您的权限不够' });
+        res.status(502).json({ error: '公司关门了' });
 
         ```
 
 
-        会返回 JSON 数据 `{ "error": "您的权限不够"}`，状态码为 403。
+        会返回 JSON 数据 `{ "error": "公司关门了"}`，状态码为 502。
 description: >-
   Node.js 已经成为 Web 后台开发圈一股不容忽视的力量，凭借其良好的异步性能、丰富的 npm 库以及 JavaScript
   语言方面的优势，已经成为了很多大公司开发其后台架构的重要技术之一，而 Express
   框架则是其中知名度最高、也是最受欢迎的后端开发框架。在这篇教程中，你将了解 Express 在 Node 内置 http
-  模块的基础上做了怎样的封装，并掌握路由和中间件这两个关键概念，最终开发出一个简单的个人简历网站。
+  模块的基础上做了怎样的封装，并掌握路由和中间件这两个关键概念，学习和使用模板引擎、静态文件服务、错误处理和 JSON
+  API，最终开发出一个简单的个人简历网站。
