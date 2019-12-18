@@ -2,7 +2,7 @@ name: 一杯茶的时间，上手 Express 框架开发
 id: cd5b993
 github: 'https://github.com/mRcfps/express_resume'
 created: '2019-11-26T12:31:31.116Z'
-updated: 2019-12-18T02:09:41.846Z
+updated: 2019-12-18T02:43:36.436Z
 topics:
   - Express
 categories:
@@ -117,6 +117,8 @@ steps:
         - 使用 Express 的静态文件服务
 
         - 编写自定义的错误处理函数
+
+        - 实现一个简单的 JSON API 端口
 
 
         ::: info
@@ -513,11 +515,11 @@ steps:
       post: |-
         最后，我们再次运行服务器，访问我们的主页，可以看到：
 
-        ![](tuture-assets/image-e84924743c16c697.png)
+        ![](tuture-assets/index.png)
 
         点击”联系方式“，跳转到相应页面：
 
-        ![](tuture-assets/image-1c047a0962100256.png)
+        ![](tuture-assets/contact.png)
   - name: 添加静态文件服务
     commit: bb79800
     explain:
@@ -527,11 +529,11 @@ steps:
       post: |-
         再次运行服务器，并访问我们的网站。首页如下：
 
-        ![](tuture-assets/image-9c79a5c5c2d412ab.png)
+        ![](tuture-assets/index-with-style.png)
 
         联系我们页面如下：
 
-        ![](tuture-assets/image-2599d0bb1e478436.png)
+        ![](tuture-assets/contact-with-style.png)
 
         可以看到样式表和图片都成功加载出来了！
     diff:
@@ -738,19 +740,35 @@ steps:
 
 
         和普通的中间件函数相比，多了第一个参数，也就是 `err` 异常对象。
-      post: >-
+      post: |-
         再次运行服务器，访问一个不存在的路径：
 
-
-        ![](tuture-assets/image-35971965064cba0d.png)
-
+        ![](tuture-assets/not-found.png)
 
         访问 `localhost:3000/broken`：
 
+        ![](tuture-assets/broken.png)
 
-        ![](tuture-assets/image-cc99a79709abc9ba.png)
+        体验很不错！
+  - name: 三行代码实现 JSON API
+    commit: 15c1dae
+    diff:
+      - file: server.js
+        display: true
+        explain:
+          pre: 到了动手环节，让我们在 server.js 实现一个简单的 JSON API 端口 `/api`，返回关于图雀社区的一些数据：
+          post: >-
+            我们可以用浏览器访问 [localhost:3000/api](http://localhost:3000/api)
+            端口，看到返回了想要的数据：
 
 
+            ![](tuture-assets/api.png)
+
+
+            或者你可以用 Postman 或 Curl 访问，也能看到想要的数据哦。
+      - file: tuture.yml
+    explain:
+      post: >-
         至此，这篇教程也就结束了。所完成的网站的确很简单，但是希望你能从中学到 Express
         的两大精髓：路由和中间件。掌握了这两大概念之后，后续进阶教程的学习也会轻松很多哦！
 
@@ -761,6 +779,31 @@ steps:
         后端工程师学习路线](https://tuture.co/roadmaps/node/)的一部分，点击可查看全部内容。
 
         :::
+      pre: >-
+        在这篇教程的最后，我们将实现一个非常简单的 JSON API。如果你有过其他后端 API 开发（特别是 Java）的经验，那么你一定会觉得用
+        Express 实现一个 JSON API 端口简单得不可思议。在之前提到的 Response 对象中，Express 为我们封装了一个
+        `json` 方法，直接就可以将一个 JavaScript 对象作为 JSON 数据返回，例如：
+
+
+        ```javascript
+
+        res.json({ name: 'iPhone XX', price: 99999 });
+
+        ```
+
+
+        会返回 JSON 数据 `{ "name": "iPhone XX", "price": 99999 }`，状态码默认为
+        200。我们还可以指定状态码，例如：
+
+
+        ```javascript
+
+        res.status(403).json({ error: '您的权限不够' });
+
+        ```
+
+
+        会返回 JSON 数据 `{ "error": "您的权限不够"}`，状态码为 403。
 description: >-
   Node.js 已经成为 Web 后台开发圈一股不容忽视的力量，凭借其良好的异步性能、丰富的 npm 库以及 JavaScript
   语言方面的优势，已经成为了很多大公司开发其后台架构的重要技术之一，而 Express
