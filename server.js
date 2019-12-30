@@ -1,6 +1,9 @@
 const express = require('express');
 const path = require('path');
 
+const indexRouter = require('./routes/index');
+const apiRouter = require('./routes/api');
+
 const hostname = 'localhost';
 const port = 3000;
 
@@ -18,21 +21,8 @@ function loggingMiddleware(req, res, next) {
 app.use(loggingMiddleware);
 app.use(express.static('public'));
 
-app.get('/', (req, res) => {
-  res.render('index');
-});
-
-app.get('/contact', (req, res) => {
-  res.render('contact');
-})
-
-app.get('/api', (req, res) => {
-  res.json({ name: '图雀社区', website: 'https://tuture.co' });
-});
-
-app.get('/broken', (req, res) => {
-  throw new Error('Broken!');
-});
+app.use('/', indexRouter);
+app.use('/api', apiRouter);
 
 app.use('*', (req, res) => {
   res.status(404).render('404', { url: req.originalUrl });
