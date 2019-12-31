@@ -3,7 +3,13 @@ id: cd5b993
 github: 'https://github.com/mRcfps/express_resume'
 cover: tuture-assets/cover.png
 created: '2019-11-26T12:31:31.116Z'
-updated: 2019-12-18T08:23:07.747Z
+updated: 2019-12-31T02:13:42.016Z
+description: >-
+  Node.js 已经成为 Web 后台开发圈一股不容忽视的力量，凭借其良好的异步性能、丰富的 npm 库以及 JavaScript
+  语言方面的优势，已经成为了很多大公司开发其后台架构的重要技术之一，而 Express
+  框架则是其中知名度最高、也是最受欢迎的后端开发框架。在这篇教程中，你将了解 Express 在 Node 内置 http
+  模块的基础上做了怎样的封装，并掌握路由和中间件这两个关键概念，学习和使用模板引擎、静态文件服务、错误处理和 JSON
+  API，最终开发出一个简单的个人简历网站。
 topics:
   - Express
 categories:
@@ -12,7 +18,7 @@ categories:
   - 入门
 steps:
   - name: 旧时代：用内置 http 模块实现一个服务器
-    commit: 090a2a5
+    commit: 372a021
     diff:
       - file: .gitignore
       - file: server.js
@@ -113,6 +119,8 @@ steps:
 
         - Express 框架的两大核心概念：路由和中间件
 
+        - 用 Nodemon 加速开发迭代
+
         - 使用模板引擎渲染页面，并接入 Express 框架中
 
         - 使用 Express 的静态文件服务
@@ -121,10 +129,12 @@ steps:
 
         - 实现一个简单的 JSON API 端口
 
+        - 通过子路由拆分逻辑，实现模块化
 
-        ::: info
 
-        **提示**
+        ::: warning
+
+        **注意**
 
 
         虽然数据库是后端开发中非常重要的环节，但 Express 并不内置处理数据库的模块，需要额外的第三方库提供支持。这篇教程将重点放在了
@@ -154,13 +164,32 @@ steps:
 
         接下来，我们将开始用 Express 来开发 Web 服务器！
   - name: 新时代：用 Express 搭建服务器
-    commit: 4ab29bf
+    commit: 2b84923
     diff:
       - file: .gitignore
       - file: package-lock.json
         display: false
       - file: package.json
-        display: false
+        display: true
+        explain:
+          pre: >-
+            ### nodemon 加速开发
+
+
+            [Nodemon](https://www.npmjs.com/package/nodemon)
+            是一款颇受欢迎的开发服务器，能够检测工作区代码的变化，并自动重启。通过以下命令安装 nodemon：
+
+
+            ```bash
+
+            npm install nodemon --save-dev
+
+            ```
+
+
+            这里我们将 nodemon 安装为开发依赖 `devDependencies`，因为仅仅只有在开发时才需要用到。同时我们在
+            package.json 中加入 `start` 命令，代码如下：
+          post: ''
       - file: server.js
         display: true
         explain:
@@ -288,22 +317,17 @@ steps:
         - `PATH` 是客户端访问的 URI，例如 `/` 或 `/about`
 
         - `HANDLER` 是路由被触发时的回调函数，在函数中可以执行相应的业务逻辑
-      post: >
-        像第一步那样再次运行 server.js，同样可以看到 Hello World 的内容，但是代码却简单明了了不少。
-
+      post: |
+        从这一步开始，我们运行 `npm start` 命令即可开启服务器，并且同样可以看到 Hello World 的内容，但是代码却简单明了了不少。
 
 
         ::: info
-
         **提示**
 
-
-        如果之前的服务器还开着，记得按 Ctrl+C
-        关掉哦。每次修改代码之后，都要手动关掉服务器然后再次运行才能生效。在后续的进阶教程中，我们会教你用更先进的工具边修改代码边检查效果！
-
+        在运行 `npm start` 之后，可以让服务器一直打开着，编辑代码并保存后，Nodemon 就会自动重启服务器，运行最新的代码。
         :::
   - name: 编写第一个中间件
-    commit: 0c83044
+    commit: f331722
     diff:
       - file: server.js
         display: true
@@ -449,7 +473,7 @@ steps:
         这里为了让你初步理解中间件的概念，我们只实现了一个功能很简单的中间件。实际上，中间件不仅可以读取 `req`
         对象上的各个属性，还可以添加新的属性或修改已有的属性（后面的中间件和路由函数都可以获取），能够很方便地实现一些复杂的业务逻辑（例如用户鉴权）。
   - name: 用模板引擎渲染页面
-    commit: 01e8e9c
+    commit: 5ed1e6c
     diff:
       - file: views/index.hbs
         display: true
@@ -513,7 +537,7 @@ steps:
 
         ```
       post: |-
-        最后，我们再次运行服务器，访问我们的主页，可以看到：
+        确保服务器在运行，访问我们的主页，可以看到：
 
         ![](tuture-assets/index.png)
 
@@ -521,7 +545,7 @@ steps:
 
         ![](tuture-assets/contact.png)
   - name: 添加静态文件服务
-    commit: bb79800
+    commit: b8585d2
     explain:
       pre: >-
         通常网站需要提供静态文件服务，例如图片、CSS 文件、JS 文件等等，而 Express 已经自带了静态文件服务中间件
@@ -578,7 +602,7 @@ steps:
         display: false
       - file: .gitignore
   - name: 处理 404 和服务器错误
-    commit: '5015883'
+    commit: 93ec144
     diff:
       - file: server.js
         display: true
@@ -751,7 +775,7 @@ steps:
 
         体验很不错！
   - name: 三行代码实现 JSON API
-    commit: 15c1dae
+    commit: 266304b
     diff:
       - file: server.js
         display: true
@@ -769,17 +793,7 @@ steps:
             [Curl](https://man.linuxde.net/curl) 访问，也能看到想要的数据哦。
       - file: tuture.yml
     explain:
-      post: >-
-        至此，这篇教程也就结束了。所完成的网站的确很简单，但是希望你能从中学到 Express
-        的两大精髓：路由和中间件。掌握了这两大概念之后，后续进阶教程的学习也会轻松很多哦！
-
-
-        ::: primary
-
-        此教程属于[Node.js
-        后端工程师学习路线](https://tuture.co/roadmaps/node/)的一部分，点击可查看全部内容。
-
-        :::
+      post: ''
       pre: >-
         在这篇教程的最后，我们将实现一个非常简单的 JSON API。如果你有过其他后端 API 开发（特别是 Java）的经验，那么你一定会觉得用
         Express 实现一个 JSON API 端口简单得不可思议。在之前提到的 Response 对象中，Express 为我们封装了一个
@@ -804,9 +818,102 @@ steps:
 
 
         会返回 JSON 数据 `{ "error": "公司关门了"}`，状态码为 502。
-description: >-
-  Node.js 已经成为 Web 后台开发圈一股不容忽视的力量，凭借其良好的异步性能、丰富的 npm 库以及 JavaScript
-  语言方面的优势，已经成为了很多大公司开发其后台架构的重要技术之一，而 Express
-  框架则是其中知名度最高、也是最受欢迎的后端开发框架。在这篇教程中，你将了解 Express 在 Node 内置 http
-  模块的基础上做了怎样的封装，并掌握路由和中间件这两个关键概念，学习和使用模板引擎、静态文件服务、错误处理和 JSON
-  API，最终开发出一个简单的个人简历网站。
+  - name: 使用子路由拆分逻辑
+    commit: fc4e804
+    diff:
+      - file: routes/index.js
+        display: true
+        explain:
+          pre: |-
+            ### 正式实现
+
+            到了动手环节，首先创建 routes 目录，用于存放所有的子路由。创建 routes/index.js 文件，代码如下：
+      - file: routes/api.js
+        display: true
+        explain:
+          pre: 创建 routes/api.js，代码如下：
+      - file: server.js
+        display: true
+        explain:
+          pre: 最后我们把 server.js 中老的路由定义全部删掉，替换成刚刚实现的两个 `Router`，代码如下：
+          post: >-
+            是不是瞬间清爽了很多呢！如果你服务器还开着，可以测试一下之前的路由是否还能成功运行哦。这里我贴一下用 Curl 测试 `/api`
+            路由的结果：
+
+
+            ```bash
+
+            $ curl localhost:3000/api
+
+            {"name":"图雀社区","website":"https://tuture.co"}
+
+            $ curl -X POST localhost:3000/api/new
+
+            {"msg":"新的篇章，即将开始"}
+
+            ```
+    explain:
+      post: >-
+        至此，这篇教程也就结束了。所完成的网站的确很简单，但是希望你能从中学到 Express
+        的两大精髓：路由和中间件。掌握了这两大概念之后，后续进阶教程的学习也会轻松很多哦！
+
+
+        ::: primary
+
+        此教程属于[Node.js
+        后端工程师学习路线](https://tuture.co/roadmaps/node/)的一部分，点击可查看全部内容。
+
+        :::
+      pre: >-
+        当我们的网站规模越来越大时，把所有代码都放在 server.js 中可不是一个好主意。“拆分逻辑”（或者说“模块化”）是最常见的做法，而在
+        Express 中，我们可以通过子路由 `Router` 来实现。
+
+
+        ```javascript
+
+        const express = require('express');
+
+        const router = express.Router();
+
+        ```
+
+
+        `express.Router` 可以理解为一个迷你版的 `app` 对象，但是它功能完备，同样支持注册中间件和路由：
+
+
+        ```javascript
+
+        // 注册一个中间件
+
+        router.use(someMiddleware);
+
+
+        // 添加路由
+
+        router.get('/hello', helloHandler);
+
+        router.post('/world', worldHandler);
+
+        ```
+
+
+        最后，由于 Express 中“万物皆中间件”的思想，一个 `Router` 也作为中间件加入到 `app` 中:
+
+
+        ```javascript
+
+        app.use('/say', router);
+
+        ```
+
+
+        这样 `router` 下的全部路由都会加到 `/say` 之下，即相当于：
+
+
+        ```javascript
+
+        app.get('/say/hello', helloHandler);
+
+        app.post('/say/world', worldHandler);
+
+        ```
