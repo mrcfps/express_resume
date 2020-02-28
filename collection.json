@@ -1,0 +1,6298 @@
+{
+  "name": "一杯茶的时间，上手 Express 框架开发",
+  "description": "Node.js 已经成为 Web 后台开发圈一股不容忽视的力量，凭借其良好的异步性能、丰富的 npm 库以及 JavaScript 语言方面的优势，已经成为了很多大公司开发其后台架构的重要技术之一，而 Express 框架则是其中知名度最高、也是最受欢迎的后端开发框架。在这篇教程中，你将了解 Express 在 Node 内置 http 模块的基础上做了怎样的封装，并掌握路由和中间件这两个关键概念，学习和使用模板引擎、静态文件服务、错误处理和 JSON API，最终开发出一个简单的个人简历网站。",
+  "id": "cd5b993",
+  "cover": ".tuture/assets/cover.png",
+  "created": "2019-11-26T12:31:31.116Z",
+  "topics": [
+    "Express"
+  ],
+  "categories": [
+    "后端",
+    "Node.js",
+    "入门"
+  ],
+  "articles": [
+    {
+      "name": "一杯茶的时间，上手 Express 框架开发",
+      "description": "Node.js 已经成为 Web 后台开发圈一股不容忽视的力量，凭借其良好的异步性能、丰富的 npm 库以及 JavaScript 语言方面的优势，已经成为了很多大公司开发其后台架构的重要技术之一，而 Express 框架则是其中知名度最高、也是最受欢迎的后端开发框架。在这篇教程中，你将了解 Express 在 Node 内置 http 模块的基础上做了怎样的封装，并掌握路由和中间件这两个关键概念，学习和使用模板引擎、静态文件服务、错误处理和 JSON API，最终开发出一个简单的个人简历网站。",
+      "id": "cd5b993",
+      "cover": ".tuture/assets/cover.png",
+      "created": "2019-11-26T12:31:31.116Z",
+      "topics": [
+        "Express"
+      ],
+      "categories": [
+        "后端",
+        "Node.js",
+        "入门"
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "type": "step",
+      "commit": "372a021",
+      "id": "7HgDBx8r",
+      "articleId": "cd5b993",
+      "children": [
+        {
+          "type": "heading-two",
+          "commit": "372a021",
+          "id": "hl6beJBpB",
+          "fixed": true,
+          "children": [
+            {
+              "text": "旧时代：用内置 http 模块实现一个服务器"
+            }
+          ]
+        },
+        {
+          "type": "explain",
+          "fixed": true,
+          "children": [
+            {
+              "type": "note",
+              "level": "primary",
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": "此教程属于"
+                    },
+                    {
+                      "link": true,
+                      "url": "https://tuture.co/roadmaps/node/",
+                      "text": "Node.js 后端工程师学习路线"
+                    },
+                    {
+                      "text": "的一部分，点击可查看全部内容。"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "text": "自从 Ryan Dahl 在 2009 年的 JSConf 正式推出 Node.js 平台后，这门技术的使用率就如同坐了火箭一般迅速上升，成为了最受喜爱的后端开发平台之一，而 Express 则是其中最为耀眼的 Web 框架。在正式开始这篇教程之前，我们将列举一下这篇教程所需要的预备知识、所用技术和学习目标。"
+                }
+              ]
+            },
+            {
+              "type": "heading-three",
+              "children": [
+                {
+                  "text": "预备知识"
+                }
+              ],
+              "id": "t8VnekWud"
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "text": "本教程假定你已经知道了："
+                }
+              ]
+            },
+            {
+              "type": "bulleted-list",
+              "children": [
+                {
+                  "type": "list-item",
+                  "children": [
+                    {
+                      "text": "JavaScript 语言基础知识（包括一些常用的 ES6+ 语法）"
+                    }
+                  ],
+                  "parent": "bulleted-list",
+                  "level": 0
+                },
+                {
+                  "type": "list-item",
+                  "children": [
+                    {
+                      "text": "Node.js 基础知识，特别是异步编程（这篇教程主要用到的是回调函数）和 Node 模块机制，还有 npm 的基本使用，可以参考"
+                    },
+                    {
+                      "link": true,
+                      "url": "https://tuture.co/2019/12/03/892fa12/",
+                      "text": "这篇教程"
+                    },
+                    {
+                      "text": "进行学习"
+                    }
+                  ],
+                  "parent": "bulleted-list",
+                  "level": 0
+                },
+                {
+                  "type": "list-item",
+                  "children": [
+                    {
+                      "text": "HTTP 协议基础知识，浏览器和服务器之间是如何互动的"
+                    }
+                  ],
+                  "parent": "bulleted-list",
+                  "level": 0
+                }
+              ]
+            },
+            {
+              "type": "heading-three",
+              "children": [
+                {
+                  "text": "所用技术"
+                }
+              ],
+              "id": "5EEiTo7RK"
+            },
+            {
+              "type": "bulleted-list",
+              "children": [
+                {
+                  "type": "list-item",
+                  "children": [
+                    {
+                      "bold": true,
+                      "text": "Node.js"
+                    },
+                    {
+                      "text": "：8.x 及以上"
+                    }
+                  ],
+                  "parent": "bulleted-list",
+                  "level": 0
+                },
+                {
+                  "type": "list-item",
+                  "children": [
+                    {
+                      "bold": true,
+                      "text": "npm"
+                    },
+                    {
+                      "text": "：6.x 及以上"
+                    }
+                  ],
+                  "parent": "bulleted-list",
+                  "level": 0
+                },
+                {
+                  "type": "list-item",
+                  "children": [
+                    {
+                      "bold": true,
+                      "text": "Express.js"
+                    },
+                    {
+                      "text": "：4.x"
+                    }
+                  ],
+                  "parent": "bulleted-list",
+                  "level": 0
+                }
+              ]
+            },
+            {
+              "type": "heading-three",
+              "children": [
+                {
+                  "text": "学习目标"
+                }
+              ],
+              "id": "kKprA_X-J"
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "text": "读完这篇教程后，你将学会"
+                }
+              ]
+            },
+            {
+              "type": "bulleted-list",
+              "children": [
+                {
+                  "type": "list-item",
+                  "children": [
+                    {
+                      "text": "Express 框架的两大核心概念：路由和中间件"
+                    }
+                  ],
+                  "parent": "bulleted-list",
+                  "level": 0
+                },
+                {
+                  "type": "list-item",
+                  "children": [
+                    {
+                      "text": "用 Nodemon 加速开发迭代"
+                    }
+                  ],
+                  "parent": "bulleted-list",
+                  "level": 0
+                },
+                {
+                  "type": "list-item",
+                  "children": [
+                    {
+                      "text": "使用模板引擎渲染页面，并接入 Express 框架中"
+                    }
+                  ],
+                  "parent": "bulleted-list",
+                  "level": 0
+                },
+                {
+                  "type": "list-item",
+                  "children": [
+                    {
+                      "text": "使用 Express 的静态文件服务"
+                    }
+                  ],
+                  "parent": "bulleted-list",
+                  "level": 0
+                },
+                {
+                  "type": "list-item",
+                  "children": [
+                    {
+                      "text": "编写自定义的错误处理函数"
+                    }
+                  ],
+                  "parent": "bulleted-list",
+                  "level": 0
+                },
+                {
+                  "type": "list-item",
+                  "children": [
+                    {
+                      "text": "实现一个简单的 JSON API 端口"
+                    }
+                  ],
+                  "parent": "bulleted-list",
+                  "level": 0
+                },
+                {
+                  "type": "list-item",
+                  "children": [
+                    {
+                      "text": "通过子路由拆分逻辑，实现模块化"
+                    }
+                  ],
+                  "parent": "bulleted-list",
+                  "level": 0
+                }
+              ]
+            },
+            {
+              "type": "note",
+              "level": "warning",
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": "虽然数据库是后端开发中非常重要的环节，但 Express 并不内置处理数据库的模块，需要额外的第三方库提供支持。这篇教程将重点放在了 Express 相关的概念讲解上，因此不会涉及数据库的开发。在学完这篇教程后，你可以浏览 Express 相关的进阶教程。"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "file",
+          "file": ".gitignore",
+          "id": "Hf5V36v2U",
+          "children": [
+            {
+              "type": "explain",
+              "fixed": true,
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "diff-block",
+              "file": ".gitignore",
+              "commit": "372a021",
+              "hiddenLines": [],
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "explain",
+              "fixed": true,
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "file",
+          "file": "server.js",
+          "display": true,
+          "id": "qW2S0UWOh",
+          "children": [
+            {
+              "type": "explain",
+              "fixed": true,
+              "children": [
+                {
+                  "type": "heading-three",
+                  "children": [
+                    {
+                      "text": "用内置 http 模块创建服务器"
+                    }
+                  ],
+                  "id": "WssubmHHe"
+                },
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": "在讲解 Express 之前，我们先了解一下怎么用 Node.js 内置的 http 模块来实现一个服务器，从而能够更好地了解 Express 对底层的 Node 代码做了哪些抽象和封装。如果你还没有安装 Node.js，可以去"
+                    },
+                    {
+                      "link": true,
+                      "url": "https://nodejs.org/",
+                      "text": "官方网站"
+                    },
+                    {
+                      "text": "下载并安装。"
+                    }
+                  ]
+                },
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": "我们将实现一个个人简历网站。创建一个文件夹 express_resume，并进入其中："
+                    }
+                  ]
+                },
+                {
+                  "type": "code-block",
+                  "lang": "bash",
+                  "children": [
+                    {
+                      "type": "code-line",
+                      "children": [
+                        {
+                          "text": "mkdir express_resume && cd express_resume"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": "创建 server.js 文件，代码如下："
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "diff-block",
+              "file": "server.js",
+              "commit": "372a021",
+              "hiddenLines": [],
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "explain",
+              "fixed": true,
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": "如果你熟悉 Node.js，上面的代码含义很清晰："
+                    }
+                  ]
+                },
+                {
+                  "type": "numbered-list",
+                  "children": [
+                    {
+                      "type": "list-item",
+                      "children": [
+                        {
+                          "text": "导入 http 模块"
+                        }
+                      ],
+                      "parent": "numbered-list",
+                      "level": 0,
+                      "number": 1
+                    },
+                    {
+                      "type": "list-item",
+                      "children": [
+                        {
+                          "text": "指定服务器的主机名 "
+                        },
+                        {
+                          "code": true,
+                          "text": "hostname"
+                        },
+                        {
+                          "text": " 和端口号 "
+                        },
+                        {
+                          "code": true,
+                          "text": "port"
+                        }
+                      ],
+                      "parent": "numbered-list",
+                      "level": 0,
+                      "number": 2
+                    },
+                    {
+                      "type": "list-item",
+                      "children": [
+                        {
+                          "text": "用 "
+                        },
+                        {
+                          "code": true,
+                          "text": "http.createServer"
+                        },
+                        {
+                          "text": " 创建 HTTP 服务器，参数为一个回调函数，接受一个请求对象 "
+                        },
+                        {
+                          "code": true,
+                          "text": "req"
+                        },
+                        {
+                          "text": " 和响应对象 "
+                        },
+                        {
+                          "code": true,
+                          "text": "res"
+                        },
+                        {
+                          "text": "，并在回调函数中写入响应内容（状态码 200，类型为 HTML 文档，内容为 "
+                        },
+                        {
+                          "code": true,
+                          "text": "Hello World"
+                        },
+                        {
+                          "text": "）"
+                        }
+                      ],
+                      "parent": "numbered-list",
+                      "level": 0,
+                      "number": 3
+                    },
+                    {
+                      "type": "list-item",
+                      "children": [
+                        {
+                          "text": "在指定的端口开启服务器"
+                        }
+                      ],
+                      "parent": "numbered-list",
+                      "level": 0,
+                      "number": 4
+                    }
+                  ]
+                },
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": "最后运行 server.js："
+                    }
+                  ]
+                },
+                {
+                  "type": "code-block",
+                  "lang": "bash",
+                  "children": [
+                    {
+                      "type": "code-line",
+                      "children": [
+                        {
+                          "text": "node server.js"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": "用浏览器打开 "
+                    },
+                    {
+                      "link": true,
+                      "url": "localhost:3000",
+                      "text": "localhost:3000"
+                    },
+                    {
+                      "text": "，可以看到 Hello World 的提示："
+                    }
+                  ]
+                },
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "image",
+                      "url": ".tuture/assets/image.png",
+                      "children": [
+                        {
+                          "text": ""
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "explain",
+          "fixed": true,
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "text": "可以发现，直接用内置的 http 模块去开发服务器有以下明显的弊端："
+                }
+              ]
+            },
+            {
+              "type": "bulleted-list",
+              "children": [
+                {
+                  "type": "list-item",
+                  "children": [
+                    {
+                      "bold": true,
+                      "text": "需要写很多底层代码"
+                    },
+                    {
+                      "text": "——例如手动指定 HTTP 状态码和头部字段，最终返回内容。如果我们需要开发更复杂的功能，涉及到多种状态码和头部信息（例如用户鉴权），这样的手动管理模式非常不方便"
+                    }
+                  ],
+                  "parent": "bulleted-list",
+                  "level": 0
+                },
+                {
+                  "type": "list-item",
+                  "children": [
+                    {
+                      "bold": true,
+                      "text": "没有专门的路由机制"
+                    },
+                    {
+                      "text": "——路由是服务器最重要的功能之一，通过路由才能根据客户端的不同请求 URL 及 HTTP 方法来返回相应内容。但是上面这段代码只能在 "
+                    },
+                    {
+                      "code": true,
+                      "text": "http.createServer"
+                    },
+                    {
+                      "text": " 的回调函数中通过判断请求 "
+                    },
+                    {
+                      "code": true,
+                      "text": "req"
+                    },
+                    {
+                      "text": " 的内容才能实现路由功能，搭建大型应用时力不从心"
+                    }
+                  ],
+                  "parent": "bulleted-list",
+                  "level": 0
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "text": "由此就引出了 Express 对内置 http 的两大封装和改进："
+                }
+              ]
+            },
+            {
+              "type": "bulleted-list",
+              "children": [
+                {
+                  "type": "list-item",
+                  "children": [
+                    {
+                      "text": "更强大的请求（Request）和响应（Response）对象，添加了很多实用方法"
+                    }
+                  ],
+                  "parent": "bulleted-list",
+                  "level": 0
+                },
+                {
+                  "type": "list-item",
+                  "children": [
+                    {
+                      "text": "灵活方便的路由的定义与解析，能够很方便地进行代码拆分"
+                    }
+                  ],
+                  "parent": "bulleted-list",
+                  "level": 0
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "text": "接下来，我们将开始用 Express 来开发 Web 服务器！"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "step",
+      "commit": "2b84923",
+      "id": "Yg5eukYXK",
+      "articleId": "cd5b993",
+      "children": [
+        {
+          "type": "heading-two",
+          "commit": "2b84923",
+          "id": "kP2J2j9Bn",
+          "fixed": true,
+          "children": [
+            {
+              "text": "新时代：用 Express 搭建服务器"
+            }
+          ]
+        },
+        {
+          "type": "explain",
+          "fixed": true,
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "text": "在第一步中，我们把服务器放在了一个 JS 文件中，也就是一个 Node 模块。从现在开始，我们将把这个项目变成一个 npm 项目。输入以下命令创建 npm 项目："
+                }
+              ]
+            },
+            {
+              "type": "code-block",
+              "lang": "bash",
+              "children": [
+                {
+                  "type": "code-line",
+                  "children": [
+                    {
+                      "text": "npm init"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "text": "接着你可以一路回车下去（当然也可以仔细填），就会发现 package.json 文件已经创建好了。然后添加 Express 项目依赖："
+                }
+              ]
+            },
+            {
+              "type": "code-block",
+              "lang": "bash",
+              "children": [
+                {
+                  "type": "code-line",
+                  "children": [
+                    {
+                      "text": "npm install express"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "text": "在开始用 Express 改写上面的服务器之前，我们先介绍一下上面提到的"
+                },
+                {
+                  "bold": true,
+                  "text": "两大封装与改进"
+                },
+                {
+                  "text": "。"
+                }
+              ]
+            },
+            {
+              "type": "heading-three",
+              "children": [
+                {
+                  "text": "更强大的 Request 和 Response 对象"
+                }
+              ],
+              "id": "c-U_AOZPc"
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "text": "首先是 Request 请求对象，通常我们习惯用 "
+                },
+                {
+                  "code": true,
+                  "text": "req"
+                },
+                {
+                  "text": " 变量来表示。下面列举一些 "
+                },
+                {
+                  "code": true,
+                  "text": "req"
+                },
+                {
+                  "text": " 上比较重要的成员（如果不知道是什么也没关系哦）："
+                }
+              ]
+            },
+            {
+              "type": "bulleted-list",
+              "children": [
+                {
+                  "type": "list-item",
+                  "children": [
+                    {
+                      "code": true,
+                      "text": "req.body"
+                    },
+                    {
+                      "text": "：客户端请求体的数据，可能是表单或 JSON 数据"
+                    }
+                  ],
+                  "parent": "bulleted-list",
+                  "level": 0
+                },
+                {
+                  "type": "list-item",
+                  "children": [
+                    {
+                      "code": true,
+                      "text": "req.params"
+                    },
+                    {
+                      "text": "：请求 URI 中的路径参数"
+                    }
+                  ],
+                  "parent": "bulleted-list",
+                  "level": 0
+                },
+                {
+                  "type": "list-item",
+                  "children": [
+                    {
+                      "code": true,
+                      "text": "req.query"
+                    },
+                    {
+                      "text": "：请求 URI 中的查询参数"
+                    }
+                  ],
+                  "parent": "bulleted-list",
+                  "level": 0
+                },
+                {
+                  "type": "list-item",
+                  "children": [
+                    {
+                      "code": true,
+                      "text": "req.cookies"
+                    },
+                    {
+                      "text": "：客户端的 cookies"
+                    }
+                  ],
+                  "parent": "bulleted-list",
+                  "level": 0
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "text": "然后是 Response 响应对象，通常用 "
+                },
+                {
+                  "code": true,
+                  "text": "res"
+                },
+                {
+                  "text": " 变量来表示，可以执行一系列响应操作，例如："
+                }
+              ]
+            },
+            {
+              "type": "code-block",
+              "lang": "javascript",
+              "children": [
+                {
+                  "type": "code-line",
+                  "children": [
+                    {
+                      "text": "// 发送一串 HTML 代码"
+                    }
+                  ]
+                },
+                {
+                  "type": "code-line",
+                  "children": [
+                    {
+                      "text": "res.send('HTML String');"
+                    }
+                  ]
+                },
+                {
+                  "type": "code-line",
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ]
+                },
+                {
+                  "type": "code-line",
+                  "children": [
+                    {
+                      "text": "// 发送一个文件"
+                    }
+                  ]
+                },
+                {
+                  "type": "code-line",
+                  "children": [
+                    {
+                      "text": "res.sendFile('file.zip');"
+                    }
+                  ]
+                },
+                {
+                  "type": "code-line",
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ]
+                },
+                {
+                  "type": "code-line",
+                  "children": [
+                    {
+                      "text": "// 渲染一个模板引擎并发送"
+                    }
+                  ]
+                },
+                {
+                  "type": "code-line",
+                  "children": [
+                    {
+                      "text": "res.render('index');"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "text": "Response 对象上的操作非常丰富，并且还可以链式调用："
+                }
+              ]
+            },
+            {
+              "type": "code-block",
+              "lang": "javascript",
+              "children": [
+                {
+                  "type": "code-line",
+                  "children": [
+                    {
+                      "text": "// 设置状态码为 404，并返回 Page Not Found 字符串"
+                    }
+                  ]
+                },
+                {
+                  "type": "code-line",
+                  "children": [
+                    {
+                      "text": "res.status(404).send('Page Not Found');"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "note",
+              "level": "info",
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": "在这里我们并没有简单地列举 Request 和 Response 的"
+                    },
+                    {
+                      "link": true,
+                      "url": "http://expressjs.com/en/4x/api.html",
+                      "text": "全部 API"
+                    },
+                    {
+                      "text": " ，因为"
+                    },
+                    {
+                      "link": true,
+                      "url": "https://tuture.co",
+                      "text": "图雀社区"
+                    },
+                    {
+                      "text": "的理念是——从实战中学习和深化理解，拒绝枯燥的 API 记忆！"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "heading-three",
+              "children": [
+                {
+                  "text": "路由机制"
+                }
+              ],
+              "id": "qanNDt0zm"
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "text": "客户端（包括 Web 前端、移动端等等）向服务器发起请求时包括两个元素："
+                },
+                {
+                  "bold": true,
+                  "text": "路径"
+                },
+                {
+                  "text": "（URI）以及 "
+                },
+                {
+                  "bold": true,
+                  "text": "HTTP 请求方法"
+                },
+                {
+                  "text": "（包括 GET、POST 等等）。路径和请求方法合起来一般被称为 API 端点（Endpoint）。而服务器根据客户端访问的端点选择相应处理逻辑的机制就叫做路由。"
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "text": "在 Express 中，定义路由只需按下面这样的形式："
+                }
+              ]
+            },
+            {
+              "type": "code-block",
+              "lang": "javascript",
+              "children": [
+                {
+                  "type": "code-line",
+                  "children": [
+                    {
+                      "text": "app.METHOD(PATH, HANDLER)"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "text": "其中："
+                }
+              ]
+            },
+            {
+              "type": "bulleted-list",
+              "children": [
+                {
+                  "type": "list-item",
+                  "children": [
+                    {
+                      "code": true,
+                      "text": "app"
+                    },
+                    {
+                      "text": " 就是一个 "
+                    },
+                    {
+                      "code": true,
+                      "text": "express"
+                    },
+                    {
+                      "text": " 服务器对象"
+                    }
+                  ],
+                  "parent": "bulleted-list",
+                  "level": 0
+                },
+                {
+                  "type": "list-item",
+                  "children": [
+                    {
+                      "code": true,
+                      "text": "METHOD"
+                    },
+                    {
+                      "text": " 可以是任何"
+                    },
+                    {
+                      "bold": true,
+                      "text": "小写"
+                    },
+                    {
+                      "text": "的 HTTP 请求方法，包括 "
+                    },
+                    {
+                      "code": true,
+                      "text": "get"
+                    },
+                    {
+                      "text": "、"
+                    },
+                    {
+                      "code": true,
+                      "text": "post"
+                    },
+                    {
+                      "text": "、"
+                    },
+                    {
+                      "code": true,
+                      "text": "put"
+                    },
+                    {
+                      "text": "、"
+                    },
+                    {
+                      "code": true,
+                      "text": "delete"
+                    },
+                    {
+                      "text": " 等等"
+                    }
+                  ],
+                  "parent": "bulleted-list",
+                  "level": 0
+                },
+                {
+                  "type": "list-item",
+                  "children": [
+                    {
+                      "code": true,
+                      "text": "PATH"
+                    },
+                    {
+                      "text": " 是客户端访问的 URI，例如 "
+                    },
+                    {
+                      "code": true,
+                      "text": "/"
+                    },
+                    {
+                      "text": " 或 "
+                    },
+                    {
+                      "code": true,
+                      "text": "/about"
+                    }
+                  ],
+                  "parent": "bulleted-list",
+                  "level": 0
+                },
+                {
+                  "type": "list-item",
+                  "children": [
+                    {
+                      "code": true,
+                      "text": "HANDLER"
+                    },
+                    {
+                      "text": " 是路由被触发时的回调函数，在函数中可以执行相应的业务逻辑"
+                    }
+                  ],
+                  "parent": "bulleted-list",
+                  "level": 0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "file",
+          "file": ".gitignore",
+          "id": "D1BxPPmEY",
+          "children": [
+            {
+              "type": "explain",
+              "fixed": true,
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "diff-block",
+              "file": ".gitignore",
+              "commit": "2b84923",
+              "hiddenLines": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                19,
+                20,
+                21,
+                22,
+                23,
+                24,
+                25,
+                26,
+                27,
+                28,
+                29,
+                30,
+                31,
+                32,
+                33,
+                34,
+                35,
+                36,
+                37,
+                38,
+                39,
+                40,
+                41,
+                42,
+                43,
+                44,
+                45,
+                46,
+                47,
+                48,
+                49,
+                50,
+                51,
+                52,
+                53,
+                54,
+                55,
+                56,
+                57,
+                58,
+                59,
+                60,
+                61,
+                62,
+                63,
+                64,
+                65,
+                66,
+                67,
+                68,
+                69,
+                70,
+                71,
+                72,
+                73,
+                74,
+                75,
+                76,
+                77,
+                78,
+                79,
+                80,
+                81,
+                82,
+                83,
+                84,
+                85,
+                86,
+                87,
+                88,
+                89,
+                90,
+                91,
+                92,
+                93,
+                94
+              ],
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "explain",
+              "fixed": true,
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "file",
+          "file": "package-lock.json",
+          "display": false,
+          "id": "gn_1reMNX",
+          "children": [
+            {
+              "type": "explain",
+              "fixed": true,
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "diff-block",
+              "file": "package-lock.json",
+              "commit": "2b84923",
+              "hiddenLines": [],
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "explain",
+              "fixed": true,
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "file",
+          "file": "package.json",
+          "display": true,
+          "id": "BQBIOaw6r",
+          "children": [
+            {
+              "type": "explain",
+              "fixed": true,
+              "children": [
+                {
+                  "type": "heading-three",
+                  "children": [
+                    {
+                      "text": "nodemon 加速开发"
+                    }
+                  ],
+                  "id": "T2ZMIWk9E"
+                },
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "link": true,
+                      "url": "https://www.npmjs.com/package/nodemon",
+                      "text": "Nodemon"
+                    },
+                    {
+                      "text": " 是一款颇受欢迎的开发服务器，能够检测工作区代码的变化，并自动重启。通过以下命令安装 nodemon："
+                    }
+                  ]
+                },
+                {
+                  "type": "code-block",
+                  "lang": "bash",
+                  "children": [
+                    {
+                      "type": "code-line",
+                      "children": [
+                        {
+                          "text": "npm install nodemon --save-dev"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": "这里我们将 nodemon 安装为开发依赖 "
+                    },
+                    {
+                      "code": true,
+                      "text": "devDependencies"
+                    },
+                    {
+                      "text": "，因为仅仅只有在开发时才需要用到。同时我们在 package.json 中加入 "
+                    },
+                    {
+                      "code": true,
+                      "text": "start"
+                    },
+                    {
+                      "text": " 命令，代码如下："
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "diff-block",
+              "file": "package.json",
+              "commit": "2b84923",
+              "hiddenLines": [],
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "explain",
+              "fixed": true,
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "file",
+          "file": "server.js",
+          "display": true,
+          "id": "LyYfYsryQi",
+          "children": [
+            {
+              "type": "explain",
+              "fixed": true,
+              "children": [
+                {
+                  "type": "heading-three",
+                  "children": [
+                    {
+                      "text": "正式实现"
+                    }
+                  ],
+                  "id": "X78mesqzhS"
+                },
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": "到了动手的时候了，我们用 Express 改写上面的服务器，代码如下："
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "diff-block",
+              "file": "server.js",
+              "commit": "2b84923",
+              "hiddenLines": [],
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "explain",
+              "fixed": true,
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": "在上面的代码中，我们首先用 "
+                    },
+                    {
+                      "code": true,
+                      "text": "express()"
+                    },
+                    {
+                      "text": " 函数创建一个 Express 服务器对象，然后用上面提到的路由定义方法 "
+                    },
+                    {
+                      "code": true,
+                      "text": "app.get"
+                    },
+                    {
+                      "text": " 定义了主页 "
+                    },
+                    {
+                      "code": true,
+                      "text": "/"
+                    },
+                    {
+                      "text": " 的路由，最后同样调用 "
+                    },
+                    {
+                      "code": true,
+                      "text": "listen"
+                    },
+                    {
+                      "text": " 方法开启服务器。"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "explain",
+          "fixed": true,
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "text": "从这一步开始，我们运行 "
+                },
+                {
+                  "code": true,
+                  "text": "npm start"
+                },
+                {
+                  "text": " 命令即可开启服务器，并且同样可以看到 Hello World 的内容，但是代码却简单明了了不少。"
+                }
+              ]
+            },
+            {
+              "type": "note",
+              "level": "info",
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": "在运行 "
+                    },
+                    {
+                      "code": true,
+                      "text": "npm start"
+                    },
+                    {
+                      "text": " 之后，可以让服务器一直打开着，编辑代码并保存后，Nodemon 就会自动重启服务器，运行最新的代码。"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "step",
+      "commit": "f331722",
+      "id": "gYk_127rPQ",
+      "articleId": "cd5b993",
+      "children": [
+        {
+          "type": "heading-two",
+          "commit": "f331722",
+          "id": "nL1JNcZKIC",
+          "fixed": true,
+          "children": [
+            {
+              "text": "编写第一个中间件"
+            }
+          ]
+        },
+        {
+          "type": "explain",
+          "fixed": true,
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "text": "接下来我们开始讲解 Express 第二个重要的概念："
+                },
+                {
+                  "bold": true,
+                  "text": "中间件"
+                },
+                {
+                  "text": "（Middleware）。"
+                }
+              ]
+            },
+            {
+              "type": "heading-three",
+              "children": [
+                {
+                  "text": "理解中间件"
+                }
+              ],
+              "id": "XQYb8MA4WD"
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "text": "中间件并不是 Express 独有的概念。相反，它是一种广为使用的软件工程概念（甚至已经延伸到了其他行业），是指"
+                },
+                {
+                  "bold": true,
+                  "text": "将具体的业务逻辑和底层逻辑解耦的组件"
+                },
+                {
+                  "text": "（可查看这个"
+                },
+                {
+                  "link": true,
+                  "url": "https://www.zhihu.com/question/19730582",
+                  "text": "讨论"
+                },
+                {
+                  "text": "）。换句话说，中间件就是能够适用多个应用场景、可复用性良好的代码。"
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "text": "Express 的简化版中间件流程如下图所示："
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "image",
+                  "url": ".tuture/assets/middleware.png",
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "text": "首先客户端向服务器发起请求，然后服务器依次执行每个中间件，最后到达路由，选择相应的逻辑来执行。"
+                }
+              ]
+            },
+            {
+              "type": "note",
+              "level": "info",
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": "这个是一个简化版的流程描述，目的是便于你对中间件有个初步的认识，在后面的章节中我们将进一步完善这一流程。"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "text": "有两点需要特别注意："
+                }
+              ]
+            },
+            {
+              "type": "bulleted-list",
+              "children": [
+                {
+                  "type": "list-item",
+                  "children": [
+                    {
+                      "text": "中间件是"
+                    },
+                    {
+                      "bold": true,
+                      "text": "按顺序执行"
+                    },
+                    {
+                      "text": "的，因此在配置中间件时顺序非常重要，不能弄错"
+                    }
+                  ],
+                  "parent": "bulleted-list",
+                  "level": 0
+                },
+                {
+                  "type": "list-item",
+                  "children": [
+                    {
+                      "text": "中间件在执行内部逻辑的时候可以选择将请求传递给下一个中间件，也可以直接返回用户响应"
+                    }
+                  ],
+                  "parent": "bulleted-list",
+                  "level": 0
+                }
+              ]
+            },
+            {
+              "type": "heading-three",
+              "children": [
+                {
+                  "text": "Express 中间件的定义"
+                }
+              ],
+              "id": "sUr-l9a2nZ"
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "text": "在 Express 中，中间件就是一个函数："
+                }
+              ]
+            },
+            {
+              "type": "code-block",
+              "lang": "javascript",
+              "children": [
+                {
+                  "type": "code-line",
+                  "children": [
+                    {
+                      "text": "function someMiddleware(req, res, next) {"
+                    }
+                  ]
+                },
+                {
+                  "type": "code-line",
+                  "children": [
+                    {
+                      "text": "  // 自定义逻辑"
+                    }
+                  ]
+                },
+                {
+                  "type": "code-line",
+                  "children": [
+                    {
+                      "text": "  next();"
+                    }
+                  ]
+                },
+                {
+                  "type": "code-line",
+                  "children": [
+                    {
+                      "text": "}"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "text": "三个参数中，"
+                },
+                {
+                  "code": true,
+                  "text": "req"
+                },
+                {
+                  "text": " 和 "
+                },
+                {
+                  "code": true,
+                  "text": "res"
+                },
+                {
+                  "text": " 就是前面提到的 Request 请求对象和 Response 响应对象；而 "
+                },
+                {
+                  "code": true,
+                  "text": "next"
+                },
+                {
+                  "text": " 函数则用来触发下一个中间件的执行。"
+                }
+              ]
+            },
+            {
+              "type": "note",
+              "level": "warning",
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": "如果忘记在中间件中调用 "
+                    },
+                    {
+                      "code": true,
+                      "text": "next"
+                    },
+                    {
+                      "text": " 函数，并且又不直接返回响应时，服务器会直接卡在这个中间件不会继续执行下去哦！"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "text": "在 Express 使用中间件有两种方式："
+                },
+                {
+                  "bold": true,
+                  "text": "全局中间件"
+                },
+                {
+                  "text": "和"
+                },
+                {
+                  "bold": true,
+                  "text": "路由中间件"
+                },
+                {
+                  "text": "。"
+                }
+              ]
+            },
+            {
+              "type": "heading-four",
+              "children": [
+                {
+                  "text": "全局中间件"
+                }
+              ],
+              "id": "JM8lLke5Lo"
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "text": "通过 "
+                },
+                {
+                  "code": true,
+                  "text": "app.use"
+                },
+                {
+                  "text": " 函数就可以注册中间件，并且此中间件会在用户发起"
+                },
+                {
+                  "bold": true,
+                  "text": "任何请求"
+                },
+                {
+                  "text": "都可能会执行，例如："
+                }
+              ]
+            },
+            {
+              "type": "code-block",
+              "lang": "javascript",
+              "children": [
+                {
+                  "type": "code-line",
+                  "children": [
+                    {
+                      "text": "app.use(someMiddleware);"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "heading-four",
+              "children": [
+                {
+                  "text": "路由中间件"
+                }
+              ],
+              "id": "m_BlUZws9x"
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "text": "通过在路由定义时注册中间件，此中间件只会在用户访问该路由对应的 URI 时执行，例如："
+                }
+              ]
+            },
+            {
+              "type": "code-block",
+              "lang": "javascript",
+              "children": [
+                {
+                  "type": "code-line",
+                  "children": [
+                    {
+                      "text": "app.get('/middleware', someMiddleware, (req, res) => {"
+                    }
+                  ]
+                },
+                {
+                  "type": "code-line",
+                  "children": [
+                    {
+                      "text": "  res.send('Hello World');"
+                    }
+                  ]
+                },
+                {
+                  "type": "code-line",
+                  "children": [
+                    {
+                      "text": "});"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "text": "那么用户只有在访问 "
+                },
+                {
+                  "code": true,
+                  "text": "/middleware"
+                },
+                {
+                  "text": " 时，定义的 "
+                },
+                {
+                  "code": true,
+                  "text": "someMiddleware"
+                },
+                {
+                  "text": " 中间件才会被触发，访问其他路径时不会触发。"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "file",
+          "file": "server.js",
+          "display": true,
+          "id": "eLeana7lBf",
+          "children": [
+            {
+              "type": "explain",
+              "fixed": true,
+              "children": [
+                {
+                  "type": "heading-three",
+                  "children": [
+                    {
+                      "text": "编写中间件"
+                    }
+                  ],
+                  "id": "UEFVJ8qN84"
+                },
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": "接下来我们就开始实现第一个 Express 中间件。功能很简单，就是在终端打印客户端的访问时间、 HTTP 请求方法和 URI。代码如下："
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "diff-block",
+              "file": "server.js",
+              "commit": "f331722",
+              "hiddenLines": [
+                0,
+                1,
+                2,
+                18,
+                19,
+                20,
+                21
+              ],
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "explain",
+              "fixed": true,
+              "children": [
+                {
+                  "type": "note",
+                  "level": "warning",
+                  "children": [
+                    {
+                      "type": "paragraph",
+                      "children": [
+                        {
+                          "text": "在中间件中写 "
+                        },
+                        {
+                          "code": true,
+                          "text": "console.log"
+                        },
+                        {
+                          "text": " 语句是比较糟糕的做法，因为 "
+                        },
+                        {
+                          "code": true,
+                          "text": "console.log"
+                        },
+                        {
+                          "text": "（包括其他同步的代码）都会阻塞 Node.js 的异步事件循环，降低服务器的吞吐率。在实际生产中，推荐使用第三方优秀的日志中间件，例如 "
+                        },
+                        {
+                          "link": true,
+                          "url": "https://www.npmjs.com/package/morgan",
+                          "text": "morgan"
+                        },
+                        {
+                          "text": "、"
+                        },
+                        {
+                          "link": true,
+                          "url": "https://www.npmjs.com/package/winston",
+                          "text": "winston"
+                        },
+                        {
+                          "text": " 等等。"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "explain",
+          "fixed": true,
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "text": "运行服务器，然后用浏览器尝试访问各个路径。这里我访问了首页（"
+                },
+                {
+                  "link": true,
+                  "url": "localhost:3000",
+                  "text": "localhost:3000"
+                },
+                {
+                  "text": "）和 "
+                },
+                {
+                  "code": true,
+                  "text": "/hello"
+                },
+                {
+                  "text": "（"
+                },
+                {
+                  "link": true,
+                  "url": "localhost:3000/hello",
+                  "text": "localhost:3000/hello"
+                },
+                {
+                  "text": "，浏览器应该看到的是 404），可以看到控制台相应的输出："
+                }
+              ]
+            },
+            {
+              "type": "code-block",
+              "lang": "",
+              "children": [
+                {
+                  "type": "code-line",
+                  "children": [
+                    {
+                      "text": "[11/28/2019, 3:54:05 PM] GET /"
+                    }
+                  ]
+                },
+                {
+                  "type": "code-line",
+                  "children": [
+                    {
+                      "text": "[11/28/2019, 3:54:11 PM] GET /hello"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "text": "这里为了让你初步理解中间件的概念，我们只实现了一个功能很简单的中间件。实际上，中间件不仅可以读取 "
+                },
+                {
+                  "code": true,
+                  "text": "req"
+                },
+                {
+                  "text": " 对象上的各个属性，还可以添加新的属性或修改已有的属性（后面的中间件和路由函数都可以获取），能够很方便地实现一些复杂的业务逻辑（例如用户鉴权）。"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "step",
+      "commit": "5ed1e6c",
+      "id": "V2WIYy3pY5",
+      "articleId": "cd5b993",
+      "children": [
+        {
+          "type": "heading-two",
+          "commit": "5ed1e6c",
+          "id": "rqX_UzM46Y",
+          "fixed": true,
+          "children": [
+            {
+              "text": "用模板引擎渲染页面"
+            }
+          ]
+        },
+        {
+          "type": "explain",
+          "fixed": true,
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "text": "最后，我们的网站要开始展示一些实际内容了。Express 对当今主流的模板引擎（例如 Pug、Handlebars、EJS 等等）提供了很好的支持，可以做到两行代码接入。"
+                }
+              ]
+            },
+            {
+              "type": "note",
+              "level": "info",
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": "如果你不了解模板引擎，不用担心，这篇教程几乎不需要用到它的高级功能，你只需理解成一个“升级版的 HTML 文档”即可。"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "text": "这篇教程将使用 "
+                },
+                {
+                  "link": true,
+                  "url": "https://www.npmjs.com/package/handlebars",
+                  "text": "Handlebars"
+                },
+                {
+                  "text": " 作为模板引擎。首先添加 npm 包："
+                }
+              ]
+            },
+            {
+              "type": "code-block",
+              "lang": "bash",
+              "children": [
+                {
+                  "type": "code-line",
+                  "children": [
+                    {
+                      "text": "npm install hbs"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "file",
+          "file": "views/index.hbs",
+          "display": true,
+          "id": "hz_374iTJC",
+          "children": [
+            {
+              "type": "explain",
+              "fixed": true,
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": "创建 views 文件夹，用于放置所有的模板。然后在其中创建首页模板 index.hbs，代码如下："
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "diff-block",
+              "file": "views/index.hbs",
+              "commit": "5ed1e6c",
+              "hiddenLines": [],
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "explain",
+              "fixed": true,
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "file",
+          "file": "views/contact.hbs",
+          "display": true,
+          "id": "kOhsJm-P2o",
+          "children": [
+            {
+              "type": "explain",
+              "fixed": true,
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": "创建联系页面模板 contact.hbs，代码如下："
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "diff-block",
+              "file": "views/contact.hbs",
+              "commit": "5ed1e6c",
+              "hiddenLines": [],
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "explain",
+              "fixed": true,
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "file",
+          "file": "server.js",
+          "display": true,
+          "id": "UqGIbv9CBK",
+          "children": [
+            {
+              "type": "explain",
+              "fixed": true,
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": "最后便是在 server.js 中配置和使用模板。配置模板的代码非常简单："
+                    }
+                  ]
+                },
+                {
+                  "type": "code-block",
+                  "lang": "javascript",
+                  "children": [
+                    {
+                      "type": "code-line",
+                      "children": [
+                        {
+                          "text": "// 指定模板存放目录"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "code-line",
+                      "children": [
+                        {
+                          "text": "app.set('views', '/path/to/templates');"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "code-line",
+                      "children": [
+                        {
+                          "text": ""
+                        }
+                      ]
+                    },
+                    {
+                      "type": "code-line",
+                      "children": [
+                        {
+                          "text": "// 指定模板引擎为 Handlebars"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "code-line",
+                      "children": [
+                        {
+                          "text": "app.set('view engine', 'hbs');"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": "在使用模板时，只需在路由函数中调用 "
+                    },
+                    {
+                      "code": true,
+                      "text": "res.render"
+                    },
+                    {
+                      "text": " 方法即可："
+                    }
+                  ]
+                },
+                {
+                  "type": "code-block",
+                  "lang": "javascript",
+                  "children": [
+                    {
+                      "type": "code-line",
+                      "children": [
+                        {
+                          "text": "// 渲染名称为 hello.hbs 的模板"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "code-line",
+                      "children": [
+                        {
+                          "text": "res.render('hello');"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": "修改后的 server.js 代码如下："
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "diff-block",
+              "file": "server.js",
+              "commit": "5ed1e6c",
+              "hiddenLines": [
+                14,
+                15,
+                16
+              ],
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "explain",
+              "fixed": true,
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": "注意在上面的代码中，我们添加了 "
+                    },
+                    {
+                      "code": true,
+                      "text": "GET /contact"
+                    },
+                    {
+                      "text": " 的路由定义。"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "file",
+          "file": "package-lock.json",
+          "display": false,
+          "id": "ZknLNttkZI",
+          "children": [
+            {
+              "type": "explain",
+              "fixed": true,
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "diff-block",
+              "file": "package-lock.json",
+              "commit": "5ed1e6c",
+              "hiddenLines": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                21,
+                22,
+                23,
+                24,
+                25,
+                26,
+                27,
+                28,
+                29,
+                30,
+                31,
+                32,
+                33,
+                34,
+                35,
+                36,
+                37,
+                38,
+                39,
+                40,
+                41,
+                42,
+                43,
+                44,
+                45,
+                46,
+                47,
+                48,
+                49,
+                50,
+                51,
+                52,
+                53,
+                54,
+                55,
+                64,
+                65,
+                66,
+                67,
+                68,
+                69,
+                70,
+                71,
+                72,
+                73,
+                84,
+                85,
+                86,
+                87,
+                88,
+                89,
+                90,
+                91,
+                92,
+                93,
+                94,
+                95,
+                96,
+                97,
+                98,
+                99,
+                100,
+                101,
+                102,
+                103,
+                104,
+                105,
+                106,
+                107,
+                108,
+                109,
+                110,
+                111,
+                112,
+                113,
+                114,
+                115,
+                116,
+                117,
+                118,
+                119,
+                120,
+                121,
+                122,
+                123,
+                124,
+                125,
+                126,
+                137,
+                138,
+                139,
+                140,
+                141,
+                142,
+                143,
+                144,
+                145,
+                146,
+                147,
+                148,
+                149,
+                150,
+                151,
+                152,
+                153,
+                154,
+                155,
+                156,
+                157,
+                158,
+                159,
+                160,
+                161,
+                162,
+                163,
+                164,
+                165,
+                166,
+                167,
+                168,
+                169,
+                170,
+                171,
+                172,
+                173,
+                174,
+                175,
+                176,
+                177,
+                178,
+                179,
+                180,
+                181,
+                182,
+                183,
+                184,
+                185,
+                186,
+                187,
+                188,
+                189,
+                190,
+                191,
+                192,
+                193,
+                194,
+                195,
+                196,
+                197,
+                210,
+                211,
+                212,
+                213,
+                214,
+                215,
+                216,
+                217,
+                218,
+                219,
+                220,
+                221,
+                222,
+                223,
+                224,
+                225,
+                258,
+                259,
+                260,
+                261,
+                262,
+                263,
+                264,
+                265,
+                266,
+                267,
+                268,
+                269,
+                270,
+                271,
+                272,
+                273,
+                274,
+                275,
+                276,
+                277,
+                278,
+                279,
+                280,
+                281,
+                292,
+                293,
+                294,
+                295,
+                296,
+                297,
+                312,
+                313,
+                314,
+                315,
+                316,
+                317,
+                318,
+                319,
+                320,
+                321,
+                322,
+                323,
+                324,
+                345,
+                346,
+                347,
+                348,
+                357,
+                358,
+                359,
+                360,
+                361,
+                362,
+                363,
+                364,
+                365,
+                366,
+                367,
+                368,
+                369,
+                380,
+                381,
+                382,
+                383,
+                384,
+                385,
+                386,
+                387,
+                388,
+                389,
+                390,
+                391,
+                392,
+                393,
+                394,
+                395,
+                396,
+                397,
+                398,
+                399,
+                400,
+                401,
+                402,
+                403,
+                404,
+                405,
+                406,
+                407,
+                408,
+                409,
+                410,
+                411,
+                412,
+                413,
+                414,
+                415,
+                416,
+                417,
+                428,
+                429,
+                430,
+                431,
+                453,
+                454,
+                455,
+                456,
+                457,
+                458,
+                459,
+                460,
+                461,
+                462,
+                463,
+                464,
+                465,
+                466,
+                467,
+                468,
+                469,
+                470,
+                471,
+                472,
+                473,
+                474,
+                475,
+                476,
+                477,
+                478,
+                479,
+                480,
+                481,
+                482,
+                483,
+                484,
+                485,
+                486,
+                487,
+                488,
+                489,
+                490,
+                491,
+                492,
+                493,
+                494,
+                495,
+                496,
+                497,
+                498,
+                499,
+                500,
+                501,
+                502,
+                503,
+                504,
+                543,
+                544,
+                545,
+                546,
+                557,
+                558,
+                559,
+                560,
+                561,
+                562,
+                563,
+                564,
+                565,
+                566,
+                567,
+                568,
+                569,
+                570,
+                571,
+                572,
+                573,
+                574,
+                583,
+                584,
+                585,
+                586,
+                597,
+                598,
+                599,
+                600,
+                601,
+                602,
+                603,
+                604,
+                605,
+                606,
+                607,
+                608,
+                609,
+                610,
+                611,
+                612,
+                613,
+                614,
+                615,
+                616,
+                617,
+                618,
+                619,
+                620,
+                621,
+                622,
+                623,
+                624,
+                625,
+                626,
+                627,
+                628,
+                629,
+                630,
+                631,
+                632,
+                633,
+                634,
+                635,
+                636,
+                637,
+                638,
+                639,
+                640,
+                641,
+                642,
+                643,
+                644,
+                645,
+                646,
+                647,
+                648,
+                649,
+                650,
+                651,
+                652,
+                653,
+                654,
+                655,
+                656,
+                657,
+                658,
+                659,
+                660,
+                661,
+                662,
+                663,
+                664,
+                665,
+                666,
+                667,
+                668,
+                669,
+                670,
+                671,
+                672,
+                673,
+                674,
+                675,
+                676,
+                677,
+                678,
+                679,
+                680,
+                681,
+                682,
+                683,
+                684,
+                685,
+                686,
+                687,
+                688,
+                689,
+                690,
+                691,
+                692,
+                693,
+                694,
+                695,
+                696,
+                697,
+                698,
+                699,
+                700,
+                701,
+                702,
+                703,
+                704,
+                705,
+                706,
+                707,
+                708,
+                709,
+                710,
+                711,
+                712,
+                713,
+                714,
+                715,
+                716,
+                717,
+                718,
+                719,
+                720,
+                721,
+                722,
+                723,
+                724,
+                725,
+                726,
+                727,
+                770,
+                771,
+                772,
+                773,
+                774,
+                775,
+                776,
+                777,
+                809,
+                810,
+                811,
+                812,
+                813,
+                814,
+                815,
+                816,
+                817,
+                818,
+                819,
+                820,
+                821,
+                822,
+                823,
+                824,
+                825,
+                826,
+                827,
+                828,
+                829,
+                830,
+                831,
+                832,
+                833,
+                834,
+                835,
+                836,
+                837,
+                838,
+                839,
+                840,
+                841,
+                842,
+                843,
+                844,
+                845,
+                846,
+                847,
+                848,
+                849,
+                850,
+                851,
+                852,
+                853,
+                854,
+                855,
+                856,
+                857,
+                858,
+                859,
+                860,
+                861,
+                862,
+                863,
+                864,
+                887,
+                888,
+                889,
+                890,
+                891,
+                892,
+                893,
+                894,
+                895,
+                896,
+                897,
+                898,
+                899,
+                900,
+                911,
+                912,
+                913,
+                914,
+                915,
+                916,
+                917,
+                918,
+                919,
+                928,
+                929,
+                930,
+                931,
+                932,
+                933,
+                934,
+                935,
+                936,
+                937,
+                938,
+                939,
+                940,
+                941,
+                942,
+                943,
+                954,
+                955,
+                956,
+                957,
+                958,
+                959,
+                960,
+                961,
+                962,
+                963,
+                964,
+                965,
+                966,
+                991,
+                992,
+                993,
+                994,
+                995,
+                996,
+                997,
+                998,
+                999,
+                1000,
+                1001,
+                1016,
+                1017,
+                1018,
+                1019,
+                1020,
+                1021,
+                1022,
+                1023,
+                1024,
+                1025,
+                1026,
+                1027,
+                1028,
+                1029,
+                1030,
+                1031,
+                1032,
+                1033,
+                1034,
+                1035,
+                1036,
+                1037,
+                1038,
+                1039,
+                1040,
+                1041,
+                1059,
+                1060,
+                1061,
+                1062,
+                1063,
+                1064,
+                1065,
+                1066,
+                1067,
+                1068,
+                1069,
+                1070,
+                1081,
+                1082,
+                1083,
+                1084,
+                1085,
+                1086,
+                1087,
+                1088,
+                1089,
+                1090,
+                1091,
+                1092,
+                1112,
+                1113,
+                1114,
+                1125,
+                1126,
+                1127,
+                1128,
+                1129,
+                1130,
+                1131,
+                1132,
+                1133,
+                1134,
+                1135,
+                1136,
+                1137,
+                1138,
+                1139,
+                1140,
+                1156,
+                1157,
+                1158,
+                1159,
+                1160,
+                1161,
+                1162,
+                1163,
+                1164,
+                1165,
+                1166,
+                1167,
+                1168,
+                1169,
+                1170,
+                1171,
+                1172,
+                1173,
+                1174,
+                1175,
+                1176,
+                1177,
+                1178,
+                1179,
+                1180,
+                1181,
+                1182,
+                1183,
+                1184,
+                1185,
+                1186,
+                1187,
+                1188,
+                1189,
+                1190,
+                1191,
+                1192,
+                1193,
+                1194,
+                1195,
+                1196,
+                1197,
+                1198,
+                1199,
+                1200,
+                1201,
+                1202,
+                1203,
+                1204,
+                1205,
+                1206,
+                1207,
+                1208,
+                1209,
+                1210,
+                1211,
+                1212,
+                1213,
+                1214,
+                1215,
+                1216,
+                1217,
+                1228,
+                1229,
+                1230,
+                1231,
+                1232,
+                1233,
+                1259,
+                1260,
+                1261,
+                1262,
+                1263,
+                1264,
+                1265,
+                1266,
+                1267,
+                1268,
+                1269,
+                1270,
+                1271,
+                1272,
+                1281,
+                1282,
+                1283,
+                1284,
+                1285,
+                1286,
+                1287,
+                1288,
+                1289,
+                1290,
+                1291,
+                1292,
+                1293,
+                1294,
+                1295,
+                1296,
+                1297,
+                1298,
+                1299,
+                1300,
+                1301,
+                1302,
+                1303,
+                1304,
+                1305,
+                1306,
+                1307,
+                1308,
+                1309,
+                1310,
+                1311,
+                1336,
+                1337,
+                1338,
+                1339,
+                1340,
+                1341,
+                1342,
+                1343,
+                1344,
+                1345,
+                1346,
+                1347,
+                1359,
+                1360,
+                1361,
+                1362,
+                1363,
+                1364,
+                1365,
+                1366,
+                1367,
+                1368,
+                1369,
+                1370,
+                1371,
+                1372,
+                1373,
+                1374,
+                1375,
+                1376,
+                1377,
+                1378,
+                1379,
+                1380
+              ],
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "explain",
+              "fixed": true,
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "file",
+          "file": "package.json",
+          "display": false,
+          "id": "TbQtPbO9IS",
+          "children": [
+            {
+              "type": "explain",
+              "fixed": true,
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "diff-block",
+              "file": "package.json",
+              "commit": "5ed1e6c",
+              "hiddenLines": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                18,
+                19
+              ],
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "explain",
+              "fixed": true,
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "explain",
+          "fixed": true,
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "text": "确保服务器在运行，访问我们的主页，可以看到："
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "image",
+                  "url": ".tuture/assets/index.png",
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "text": "点击”联系方式“，跳转到相应页面："
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "image",
+                  "url": ".tuture/assets/contact.png",
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "step",
+      "commit": "b8585d2",
+      "id": "yhytvTcjNU",
+      "articleId": "cd5b993",
+      "children": [
+        {
+          "type": "heading-two",
+          "commit": "b8585d2",
+          "id": "JbRe25Zl-z",
+          "fixed": true,
+          "children": [
+            {
+              "text": "添加静态文件服务"
+            }
+          ]
+        },
+        {
+          "type": "explain",
+          "fixed": true,
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "text": "通常网站需要提供静态文件服务，例如图片、CSS 文件、JS 文件等等，而 Express 已经自带了静态文件服务中间件 "
+                },
+                {
+                  "code": true,
+                  "text": "express.static"
+                },
+                {
+                  "text": "，使用起来非常方便。"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "file",
+          "file": "server.js",
+          "display": true,
+          "id": "6ccz_BT4CK",
+          "children": [
+            {
+              "type": "explain",
+              "fixed": true,
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": "例如，我们添加静态文件中间件如下，并指定静态资源根目录为 "
+                    },
+                    {
+                      "code": true,
+                      "text": "public"
+                    },
+                    {
+                      "text": "："
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "diff-block",
+              "file": "server.js",
+              "commit": "b8585d2",
+              "hiddenLines": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                22,
+                23,
+                24,
+                25,
+                26,
+                27,
+                28,
+                29,
+                30
+              ],
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "explain",
+              "fixed": true,
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": "假设项目的 public 目录里面有这些静态文件："
+                    }
+                  ]
+                },
+                {
+                  "type": "code-block",
+                  "lang": "text",
+                  "children": [
+                    {
+                      "type": "code-line",
+                      "children": [
+                        {
+                          "text": "public"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "code-line",
+                      "children": [
+                        {
+                          "text": "├── css"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "code-line",
+                      "children": [
+                        {
+                          "text": "│   └── style.css"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "code-line",
+                      "children": [
+                        {
+                          "text": "└── img"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "code-line",
+                      "children": [
+                        {
+                          "text": "    └── tuture-logo.png"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": "就可以分别通过以下路径访问："
+                    }
+                  ]
+                },
+                {
+                  "type": "code-block",
+                  "lang": "text",
+                  "children": [
+                    {
+                      "type": "code-line",
+                      "children": [
+                        {
+                          "text": "http://localhost:3000/css/style.css"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "code-line",
+                      "children": [
+                        {
+                          "text": "http://localhost:3000/img/tuture-logo.png"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "file",
+          "file": "public/css/style.css",
+          "display": true,
+          "id": "GUtLkHo6sl",
+          "children": [
+            {
+              "type": "explain",
+              "fixed": true,
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": "样式文件 public/css/style.css 的代码如下（直接复制粘贴即可）："
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "diff-block",
+              "file": "public/css/style.css",
+              "commit": "b8585d2",
+              "hiddenLines": [],
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "explain",
+              "fixed": true,
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": "图片文件可通过这个 GitHub 上的"
+                    },
+                    {
+                      "link": true,
+                      "url": "https://github.com/mRcfps/express_resume/raw/master/public/img/tuture-logo.png",
+                      "text": "链接"
+                    },
+                    {
+                      "text": "下载，然后下载到 public/img 目录中。当然，你也可以使用自己的图片，记得在模板中替换相应的链接就可以了。"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "file",
+          "file": "views/index.hbs",
+          "display": true,
+          "id": "5BShury9kp",
+          "children": [
+            {
+              "type": "explain",
+              "fixed": true,
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": "在首页模板 views/index.hbs 中加入 CSS 样式表和图片："
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "diff-block",
+              "file": "views/index.hbs",
+              "commit": "b8585d2",
+              "hiddenLines": [],
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "explain",
+              "fixed": true,
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "file",
+          "file": "views/contact.hbs",
+          "display": true,
+          "id": "ah1X23rG9T",
+          "children": [
+            {
+              "type": "explain",
+              "fixed": true,
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": "在联系模板 views/contact.hbs 中加入样式表："
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "diff-block",
+              "file": "views/contact.hbs",
+              "commit": "b8585d2",
+              "hiddenLines": [
+                5
+              ],
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "explain",
+              "fixed": true,
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "file",
+          "file": "public/img/tuture-logo.png",
+          "display": false,
+          "id": "PxJvVCITaB",
+          "children": [
+            {
+              "type": "explain",
+              "fixed": true,
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "diff-block",
+              "file": "public/img/tuture-logo.png",
+              "commit": "b8585d2",
+              "hiddenLines": [],
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "explain",
+              "fixed": true,
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "file",
+          "file": ".gitignore",
+          "id": "X5Dbv2CRYZ",
+          "children": [
+            {
+              "type": "explain",
+              "fixed": true,
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "diff-block",
+              "file": ".gitignore",
+              "commit": "b8585d2",
+              "hiddenLines": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                19,
+                20,
+                21,
+                22,
+                23,
+                24,
+                25,
+                26,
+                27,
+                28,
+                29,
+                30,
+                31,
+                32,
+                33,
+                34,
+                35,
+                36,
+                37,
+                38,
+                39,
+                40,
+                41,
+                42,
+                43,
+                44,
+                45,
+                46,
+                47,
+                48,
+                49,
+                50,
+                51,
+                52,
+                53,
+                54,
+                55,
+                56,
+                57,
+                58,
+                59,
+                60,
+                61,
+                62,
+                63,
+                64,
+                65,
+                66,
+                67,
+                68,
+                69,
+                70,
+                71,
+                72,
+                73,
+                74,
+                75,
+                76,
+                77,
+                78,
+                88,
+                89,
+                90,
+                91,
+                92,
+                93,
+                94,
+                95,
+                96,
+                97,
+                98,
+                99,
+                100,
+                101,
+                102
+              ],
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "explain",
+              "fixed": true,
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "explain",
+          "fixed": true,
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "text": "再次运行服务器，并访问我们的网站。首页如下："
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "image",
+                  "url": ".tuture/assets/index-with-style.png",
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "text": "联系我们页面如下："
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "image",
+                  "url": ".tuture/assets/contact-with-style.png",
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "text": "可以看到样式表和图片都成功加载出来了！"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "step",
+      "commit": "93ec144",
+      "id": "3VK4it66i6",
+      "articleId": "cd5b993",
+      "children": [
+        {
+          "type": "heading-two",
+          "commit": "93ec144",
+          "id": "jFIB36ctOy",
+          "fixed": true,
+          "children": [
+            {
+              "text": "处理 404 和服务器错误"
+            }
+          ]
+        },
+        {
+          "type": "explain",
+          "fixed": true,
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "text": "人有悲欢离合，月有阴晴圆缺，服务器也有出错的时候。HTTP 错误一般分为两大类："
+                }
+              ]
+            },
+            {
+              "type": "bulleted-list",
+              "children": [
+                {
+                  "type": "list-item",
+                  "children": [
+                    {
+                      "text": "客户端方面的错误（状态码 4xx），例如访问了不存在的页面（404）、权限不够（403）等等"
+                    }
+                  ],
+                  "parent": "bulleted-list",
+                  "level": 0
+                },
+                {
+                  "type": "list-item",
+                  "children": [
+                    {
+                      "text": "服务器方面的错误（状态码 5xx），例如服务器内部出现错误（500）或网关错误（503）等等"
+                    }
+                  ],
+                  "parent": "bulleted-list",
+                  "level": 0
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "text": "如果你打开服务器，访问一个不存在的路径，例如 "
+                },
+                {
+                  "code": true,
+                  "text": "localhost:3000/what"
+                },
+                {
+                  "text": "，就会出现这样的页面："
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "image",
+                  "url": ".tuture/assets/raw-404.png",
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "text": "很显然，这样的用户体验是很糟糕的。"
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "text": "在这一节中，我们将讲解如何在 Express 框架中处理 404（页面不存在）及 500（服务器内部错误）。在此之前，我们要完善一下 Express 中间件的运作流程，如下图所示："
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "image",
+                  "url": ".tuture/assets/middleware-new.png",
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "text": "这张示意图和之前的图有两点重大区别："
+                }
+              ]
+            },
+            {
+              "type": "bulleted-list",
+              "children": [
+                {
+                  "type": "list-item",
+                  "children": [
+                    {
+                      "text": "每个路由定义本质上是一个"
+                    },
+                    {
+                      "bold": true,
+                      "text": "中间件"
+                    },
+                    {
+                      "text": "（更准确地说是一个"
+                    },
+                    {
+                      "bold": true,
+                      "text": "中间件容器"
+                    },
+                    {
+                      "text": "，可包含多个中间件），当 URI 匹配成功时直接返回响应，匹配失败时继续执行下一个路由"
+                    }
+                  ],
+                  "parent": "bulleted-list",
+                  "level": 0
+                },
+                {
+                  "type": "list-item",
+                  "children": [
+                    {
+                      "text": "每个中间件（包括路由）不仅可以调用 "
+                    },
+                    {
+                      "code": true,
+                      "text": "next"
+                    },
+                    {
+                      "text": " 函数向下传递、直接返回响应，还可以"
+                    },
+                    {
+                      "bold": true,
+                      "text": "抛出异常"
+                    }
+                  ],
+                  "parent": "bulleted-list",
+                  "level": 0
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "text": "从这张图就可以很清晰地看出怎么实现 404 和服务器错误的处理了："
+                }
+              ]
+            },
+            {
+              "type": "bulleted-list",
+              "children": [
+                {
+                  "type": "list-item",
+                  "children": [
+                    {
+                      "text": "对于 404，只需在所有路由之后再加一个中间件，用来接收所有路由均匹配失败的请求"
+                    }
+                  ],
+                  "parent": "bulleted-list",
+                  "level": 0
+                },
+                {
+                  "type": "list-item",
+                  "children": [
+                    {
+                      "text": "对于错误处理，前面所有中间件抛出异常时都会进入错误处理函数，可以使用 Express 自带的，也可以自定义。"
+                    }
+                  ],
+                  "parent": "bulleted-list",
+                  "level": 0
+                }
+              ]
+            },
+            {
+              "type": "heading-three",
+              "children": [
+                {
+                  "text": "处理 404"
+                }
+              ],
+              "id": "DY6d5ekHsm"
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "text": "在 Express 中，可以通过中间件的方式处理访问不存在的路径："
+                }
+              ]
+            },
+            {
+              "type": "code-block",
+              "lang": "javascript",
+              "children": [
+                {
+                  "type": "code-line",
+                  "children": [
+                    {
+                      "text": "app.use('*', (req, res) => {"
+                    }
+                  ]
+                },
+                {
+                  "type": "code-line",
+                  "children": [
+                    {
+                      "text": "  // ..."
+                    }
+                  ]
+                },
+                {
+                  "type": "code-line",
+                  "children": [
+                    {
+                      "text": "});"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "code": true,
+                  "text": "*"
+                },
+                {
+                  "text": " 表示匹配任何路径。将此中间件放在所有路由后面，即可捕获所有访问路径均匹配失败的请求。"
+                }
+              ]
+            },
+            {
+              "type": "heading-three",
+              "children": [
+                {
+                  "text": "处理内部错误"
+                }
+              ],
+              "id": "tFcQTLlWue"
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "text": "Express 已经自带了错误处理机制，我们先来体验一下。在 server.js 中添加下面这条”坏掉“的路由（模拟现实中出错的情形）："
+                }
+              ]
+            },
+            {
+              "type": "code-block",
+              "lang": "javascript",
+              "children": [
+                {
+                  "type": "code-line",
+                  "children": [
+                    {
+                      "text": "app.get('/broken', (req, res) => {"
+                    }
+                  ]
+                },
+                {
+                  "type": "code-line",
+                  "children": [
+                    {
+                      "text": "  throw new Error('Broken!');"
+                    }
+                  ]
+                },
+                {
+                  "type": "code-line",
+                  "children": [
+                    {
+                      "text": "});"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "text": "然后开启服务器，访问 "
+                },
+                {
+                  "code": true,
+                  "text": "localhost:3000/broken"
+                },
+                {
+                  "text": "："
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "image",
+                  "url": ".tuture/assets/raw-broken.png",
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "note",
+              "level": "danger",
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": "服务器直接返回了出错的调用栈！很明显，向用户返回这样的调用栈不仅体验糟糕，而且大大增加了被攻击的风险。"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "text": "实际上，Express 的默认错误处理机制可以通过设置 "
+                },
+                {
+                  "code": true,
+                  "text": "NODE_ENV"
+                },
+                {
+                  "text": " 来进行切换。我们将其设置为生产环境 "
+                },
+                {
+                  "code": true,
+                  "text": "production"
+                },
+                {
+                  "text": "，再开启服务器。如果你在 Linux、macOS 或 Windows 下的 Git Bash 环境中，可以运行以下命令："
+                }
+              ]
+            },
+            {
+              "type": "code-block",
+              "lang": "Bash",
+              "children": [
+                {
+                  "type": "code-line",
+                  "children": [
+                    {
+                      "text": "NODE_ENV=production node server.js"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "text": "如果你在 Windows 下的命令行，运行以下命令："
+                }
+              ]
+            },
+            {
+              "type": "code-block",
+              "lang": "Bash",
+              "children": [
+                {
+                  "type": "code-line",
+                  "children": [
+                    {
+                      "text": "set NODE_ENV=production"
+                    }
+                  ]
+                },
+                {
+                  "type": "code-line",
+                  "children": [
+                    {
+                      "text": "node server.js"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "text": "这时候访问 "
+                },
+                {
+                  "code": true,
+                  "text": "localhost:3000/broken"
+                },
+                {
+                  "text": " 就会直接返回 Internal Server Error（服务器内部错误），不会显示任何错误信息："
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "image",
+                  "url": ".tuture/assets/raw-500.png",
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "text": "体验还是很不好，更理想的情况是能够返回一个友好的自定义页面。这可以通过 Express 的自定义错误处理函数来解决，错误处理函数的形式如下："
+                }
+              ]
+            },
+            {
+              "type": "code-block",
+              "lang": "javascript",
+              "children": [
+                {
+                  "type": "code-line",
+                  "children": [
+                    {
+                      "text": "function (err, req, res, next) {"
+                    }
+                  ]
+                },
+                {
+                  "type": "code-line",
+                  "children": [
+                    {
+                      "text": "  // 处理错误逻辑"
+                    }
+                  ]
+                },
+                {
+                  "type": "code-line",
+                  "children": [
+                    {
+                      "text": "}"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "text": "和普通的中间件函数相比，多了第一个参数，也就是 "
+                },
+                {
+                  "code": true,
+                  "text": "err"
+                },
+                {
+                  "text": " 异常对象。"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "file",
+          "file": "server.js",
+          "display": true,
+          "id": "WZL-X3xKLV",
+          "children": [
+            {
+              "type": "explain",
+              "fixed": true,
+              "children": [
+                {
+                  "type": "heading-three",
+                  "children": [
+                    {
+                      "text": "实现自定义处理逻辑"
+                    }
+                  ],
+                  "id": "ns0bO-gl6n"
+                },
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": "通过上面的讲解，实现自定义的 404 和错误处理逻辑也就非常简单了。在 server.js 中添加如下代码："
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "diff-block",
+              "file": "server.js",
+              "commit": "93ec144",
+              "hiddenLines": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                19,
+                20,
+                21,
+                22,
+                23,
+                24
+              ],
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "explain",
+              "fixed": true,
+              "children": [
+                {
+                  "type": "note",
+                  "level": "info",
+                  "children": [
+                    {
+                      "type": "paragraph",
+                      "children": [
+                        {
+                          "text": "在编写处理 404 的逻辑时，我们用到了模板引擎中的变量插值功能。具体而言，在 "
+                        },
+                        {
+                          "code": true,
+                          "text": "res.render"
+                        },
+                        {
+                          "text": " 方法中将需要传给模板的数据作为第二个参数（例如这里的 "
+                        },
+                        {
+                          "code": true,
+                          "text": "{ url: req.originalUrl }"
+                        },
+                        {
+                          "text": " 传入了用户访问的路径），在模板中就可以通过 "
+                        },
+                        {
+                          "code": true,
+                          "text": "{{ url }}"
+                        },
+                        {
+                          "text": " 获取数据了。"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "file",
+          "file": "views/404.hbs",
+          "display": true,
+          "id": "I014tDrVkD",
+          "children": [
+            {
+              "type": "explain",
+              "fixed": true,
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": "404 和 500 的模板代码分别如下："
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "diff-block",
+              "file": "views/404.hbs",
+              "commit": "93ec144",
+              "hiddenLines": [],
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "explain",
+              "fixed": true,
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "file",
+          "file": "views/500.hbs",
+          "display": true,
+          "id": "DlQtdrf8Jj",
+          "children": [
+            {
+              "type": "explain",
+              "fixed": true,
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "diff-block",
+              "file": "views/500.hbs",
+              "commit": "93ec144",
+              "hiddenLines": [],
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "explain",
+              "fixed": true,
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "explain",
+          "fixed": true,
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "text": "再次运行服务器，访问一个不存在的路径："
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "image",
+                  "url": ".tuture/assets/not-found.png",
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "text": "访问 "
+                },
+                {
+                  "code": true,
+                  "text": "localhost:3000/broken"
+                },
+                {
+                  "text": "："
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "image",
+                  "url": ".tuture/assets/broken.png",
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "text": "体验很不错！"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "step",
+      "commit": "266304b",
+      "id": "2E0BAeW46S",
+      "articleId": "cd5b993",
+      "children": [
+        {
+          "type": "heading-two",
+          "commit": "266304b",
+          "id": "rNk_Evru8p",
+          "fixed": true,
+          "children": [
+            {
+              "text": "三行代码实现 JSON API"
+            }
+          ]
+        },
+        {
+          "type": "explain",
+          "fixed": true,
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "text": "在这篇教程的最后，我们将实现一个非常简单的 JSON API。如果你有过其他后端 API 开发（特别是 Java）的经验，那么你一定会觉得用 Express 实现一个 JSON API 端口简单得不可思议。在之前提到的 Response 对象中，Express 为我们封装了一个 "
+                },
+                {
+                  "code": true,
+                  "text": "json"
+                },
+                {
+                  "text": " 方法，直接就可以将一个 JavaScript 对象作为 JSON 数据返回，例如："
+                }
+              ]
+            },
+            {
+              "type": "code-block",
+              "lang": "javascript",
+              "children": [
+                {
+                  "type": "code-line",
+                  "children": [
+                    {
+                      "text": "res.json({ name: '百万年薪', price: 996 });"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "text": "会返回 JSON 数据 "
+                },
+                {
+                  "code": true,
+                  "text": "{ \"name\": \"百万年薪\", \"price\": 996 }"
+                },
+                {
+                  "text": "，状态码默认为 200。我们还可以指定状态码，例如："
+                }
+              ]
+            },
+            {
+              "type": "code-block",
+              "lang": "javascript",
+              "children": [
+                {
+                  "type": "code-line",
+                  "children": [
+                    {
+                      "text": "res.status(502).json({ error: '公司关门了' });"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "text": "会返回 JSON 数据 "
+                },
+                {
+                  "code": true,
+                  "text": "{ \"error\": \"公司关门了\"}"
+                },
+                {
+                  "text": "，状态码为 502。"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "file",
+          "file": "server.js",
+          "display": true,
+          "id": "bGYC9MTa6W",
+          "children": [
+            {
+              "type": "explain",
+              "fixed": true,
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": "到了动手环节，让我们在 server.js 实现一个简单的 JSON API 端口 "
+                    },
+                    {
+                      "code": true,
+                      "text": "/api"
+                    },
+                    {
+                      "text": "，返回关于图雀社区的一些数据："
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "diff-block",
+              "file": "server.js",
+              "commit": "266304b",
+              "hiddenLines": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                19,
+                20,
+                21,
+                22,
+                23,
+                24,
+                35,
+                36,
+                37,
+                38,
+                39,
+                40,
+                41,
+                42,
+                43,
+                44,
+                45,
+                46,
+                47
+              ],
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "explain",
+              "fixed": true,
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": "我们可以用浏览器访问 "
+                    },
+                    {
+                      "link": true,
+                      "url": "http://localhost:3000/api",
+                      "text": "localhost:3000/api"
+                    },
+                    {
+                      "text": " 端口，看到返回了想要的数据："
+                    }
+                  ]
+                },
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "type": "image",
+                      "url": ".tuture/assets/api.png",
+                      "children": [
+                        {
+                          "text": ""
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": "或者你可以用 "
+                    },
+                    {
+                      "link": true,
+                      "url": "https://www.cnblogs.com/fnng/p/9136434.html",
+                      "text": "Postman"
+                    },
+                    {
+                      "text": " 或 "
+                    },
+                    {
+                      "link": true,
+                      "url": "https://man.linuxde.net/curl",
+                      "text": "Curl"
+                    },
+                    {
+                      "text": " 访问，也能看到想要的数据哦。"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "file",
+          "file": "tuture.yml",
+          "id": "ZcIwJ1tnfS",
+          "children": [
+            {
+              "type": "explain",
+              "fixed": true,
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "diff-block",
+              "file": "tuture.yml",
+              "commit": "266304b",
+              "hiddenLines": [
+                10,
+                11,
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                19,
+                20,
+                21,
+                22,
+                23,
+                32,
+                33,
+                34,
+                35,
+                36,
+                37,
+                38,
+                39,
+                40,
+                41,
+                42,
+                43,
+                44,
+                45,
+                46,
+                47,
+                48,
+                49,
+                50,
+                51,
+                52,
+                53,
+                54,
+                55,
+                56,
+                57,
+                58,
+                59,
+                60,
+                61,
+                62,
+                63,
+                64,
+                65,
+                66,
+                67,
+                68,
+                69,
+                70,
+                71,
+                72,
+                73,
+                74,
+                75,
+                76,
+                77,
+                78,
+                87,
+                88,
+                89,
+                90,
+                114,
+                115,
+                116,
+                117,
+                126,
+                127,
+                128,
+                129,
+                130,
+                131,
+                132,
+                133,
+                134,
+                135,
+                136,
+                137,
+                138,
+                139,
+                140,
+                141,
+                151,
+                152,
+                153,
+                154,
+                155,
+                156,
+                157,
+                158,
+                159,
+                160,
+                161,
+                162,
+                163,
+                164,
+                165,
+                166,
+                167,
+                168,
+                169,
+                170,
+                171,
+                172,
+                173,
+                174,
+                175,
+                176,
+                177,
+                178,
+                179,
+                180,
+                181,
+                182,
+                183,
+                184,
+                185,
+                186,
+                187,
+                188,
+                189,
+                190,
+                191,
+                192,
+                193,
+                194,
+                195,
+                196,
+                197,
+                198,
+                199,
+                200,
+                201,
+                202,
+                212,
+                213,
+                214,
+                215,
+                216,
+                225,
+                226,
+                227,
+                228,
+                229,
+                230,
+                231,
+                232,
+                233,
+                234,
+                235,
+                236,
+                237,
+                238,
+                239,
+                270,
+                271,
+                272,
+                273,
+                274,
+                275,
+                276,
+                277,
+                278,
+                279,
+                280,
+                281,
+                282,
+                283,
+                284,
+                285,
+                286,
+                287,
+                288,
+                289,
+                290,
+                291,
+                292,
+                293,
+                294,
+                295,
+                296,
+                297,
+                298,
+                299,
+                300,
+                301,
+                302,
+                303,
+                304,
+                305,
+                306,
+                307,
+                308,
+                309,
+                310,
+                311,
+                312,
+                313,
+                314,
+                315,
+                316,
+                317,
+                318,
+                319,
+                320,
+                321,
+                322,
+                323,
+                324,
+                325,
+                326,
+                327,
+                328,
+                329,
+                330,
+                331,
+                332,
+                333,
+                334,
+                335,
+                336,
+                337,
+                338,
+                339,
+                340,
+                341,
+                342,
+                343,
+                344,
+                372,
+                373,
+                374,
+                375,
+                376,
+                377,
+                378,
+                379,
+                380,
+                381,
+                382,
+                383,
+                384,
+                385,
+                386,
+                387,
+                388,
+                389,
+                390,
+                391,
+                392,
+                393,
+                394,
+                395,
+                396,
+                397,
+                398,
+                399,
+                400,
+                401,
+                402,
+                403,
+                404,
+                405,
+                406,
+                407,
+                408,
+                409,
+                410,
+                411,
+                412,
+                413,
+                414,
+                415,
+                416,
+                417,
+                418,
+                419,
+                420,
+                421,
+                422,
+                423,
+                424,
+                425,
+                426,
+                427,
+                428,
+                429,
+                430,
+                431,
+                432,
+                433,
+                434,
+                435,
+                436,
+                437,
+                438,
+                439,
+                440,
+                441,
+                442,
+                443,
+                444,
+                445,
+                446,
+                447,
+                448,
+                449,
+                450,
+                451,
+                452,
+                453,
+                462,
+                463,
+                464,
+                465,
+                466,
+                467,
+                468,
+                469,
+                470,
+                471,
+                472,
+                473,
+                474,
+                475,
+                476,
+                477,
+                478,
+                479,
+                480,
+                481,
+                482,
+                483,
+                484,
+                485,
+                486,
+                487,
+                488,
+                489,
+                490,
+                491,
+                492,
+                493,
+                494,
+                495,
+                496,
+                497,
+                498,
+                499,
+                500,
+                501,
+                502,
+                503,
+                504,
+                505,
+                506,
+                515,
+                516,
+                517,
+                518,
+                519,
+                520,
+                521,
+                522,
+                523,
+                524,
+                525,
+                526,
+                527,
+                528,
+                529,
+                530,
+                531,
+                532,
+                533,
+                534,
+                543,
+                544,
+                545,
+                546,
+                547,
+                548,
+                549,
+                550,
+                551,
+                552,
+                553,
+                554,
+                555,
+                556,
+                557,
+                558,
+                559,
+                560,
+                561,
+                562,
+                563,
+                564,
+                565,
+                566,
+                567,
+                568,
+                569,
+                570,
+                571,
+                572,
+                573,
+                574,
+                575,
+                585,
+                586,
+                587,
+                588,
+                589,
+                590,
+                591,
+                592,
+                593,
+                594,
+                595,
+                596,
+                597,
+                598,
+                599,
+                600,
+                601,
+                602,
+                603,
+                604,
+                605,
+                606,
+                607,
+                608,
+                609,
+                610,
+                611,
+                612,
+                613,
+                614,
+                615,
+                616,
+                617,
+                618,
+                619,
+                620,
+                621,
+                622,
+                634,
+                635,
+                636,
+                637,
+                638,
+                649,
+                650,
+                651,
+                652,
+                653,
+                654,
+                655,
+                656,
+                657,
+                658,
+                659,
+                660,
+                661,
+                670,
+                671,
+                672,
+                673,
+                674,
+                675,
+                676,
+                677,
+                678,
+                679,
+                680,
+                689,
+                690,
+                691,
+                692,
+                693,
+                694,
+                695,
+                696,
+                697,
+                698,
+                699,
+                700,
+                701,
+                702,
+                703,
+                704,
+                705,
+                706,
+                707,
+                708,
+                709,
+                710,
+                711,
+                712,
+                713,
+                714,
+                715,
+                747,
+                748,
+                749,
+                750,
+                751,
+                752,
+                753,
+                754,
+                755,
+                756,
+                757,
+                758,
+                759,
+                760,
+                761,
+                762,
+                763,
+                764,
+                765,
+                766,
+                767,
+                768,
+                769,
+                770,
+                771,
+                772,
+                773,
+                774,
+                775,
+                776,
+                777,
+                778,
+                779,
+                780,
+                781,
+                782,
+                783,
+                784,
+                785,
+                786,
+                787,
+                788,
+                789,
+                790,
+                791
+              ],
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "explain",
+              "fixed": true,
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "explain",
+          "fixed": true,
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "text": ""
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "step",
+      "commit": "fc4e804",
+      "id": "dfMqVs10Rt",
+      "articleId": "cd5b993",
+      "children": [
+        {
+          "type": "heading-two",
+          "commit": "fc4e804",
+          "id": "oIcHntQYtc",
+          "fixed": true,
+          "children": [
+            {
+              "text": "使用子路由拆分逻辑"
+            }
+          ]
+        },
+        {
+          "type": "explain",
+          "fixed": true,
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "text": "当我们的网站规模越来越大时，把所有代码都放在 server.js 中可不是一个好主意。“拆分逻辑”（或者说“模块化”）是最常见的做法，而在 Express 中，我们可以通过子路由 "
+                },
+                {
+                  "code": true,
+                  "text": "Router"
+                },
+                {
+                  "text": " 来实现。"
+                }
+              ]
+            },
+            {
+              "type": "code-block",
+              "lang": "javascript",
+              "children": [
+                {
+                  "type": "code-line",
+                  "children": [
+                    {
+                      "text": "const express = require('express');"
+                    }
+                  ]
+                },
+                {
+                  "type": "code-line",
+                  "children": [
+                    {
+                      "text": "const router = express.Router();"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "code": true,
+                  "text": "express.Router"
+                },
+                {
+                  "text": " 可以理解为一个迷你版的 "
+                },
+                {
+                  "code": true,
+                  "text": "app"
+                },
+                {
+                  "text": " 对象，但是它功能完备，同样支持注册中间件和路由："
+                }
+              ]
+            },
+            {
+              "type": "code-block",
+              "lang": "javascript",
+              "children": [
+                {
+                  "type": "code-line",
+                  "children": [
+                    {
+                      "text": "// 注册一个中间件"
+                    }
+                  ]
+                },
+                {
+                  "type": "code-line",
+                  "children": [
+                    {
+                      "text": "router.use(someMiddleware);"
+                    }
+                  ]
+                },
+                {
+                  "type": "code-line",
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ]
+                },
+                {
+                  "type": "code-line",
+                  "children": [
+                    {
+                      "text": "// 添加路由"
+                    }
+                  ]
+                },
+                {
+                  "type": "code-line",
+                  "children": [
+                    {
+                      "text": "router.get('/hello', helloHandler);"
+                    }
+                  ]
+                },
+                {
+                  "type": "code-line",
+                  "children": [
+                    {
+                      "text": "router.post('/world', worldHandler);"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "text": "最后，由于 Express 中“万物皆中间件”的思想，一个 "
+                },
+                {
+                  "code": true,
+                  "text": "Router"
+                },
+                {
+                  "text": " 也作为中间件加入到 "
+                },
+                {
+                  "code": true,
+                  "text": "app"
+                },
+                {
+                  "text": " 中:"
+                }
+              ]
+            },
+            {
+              "type": "code-block",
+              "lang": "javascript",
+              "children": [
+                {
+                  "type": "code-line",
+                  "children": [
+                    {
+                      "text": "app.use('/say', router);"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "text": "这样 "
+                },
+                {
+                  "code": true,
+                  "text": "router"
+                },
+                {
+                  "text": " 下的全部路由都会加到 "
+                },
+                {
+                  "code": true,
+                  "text": "/say"
+                },
+                {
+                  "text": " 之下，即相当于："
+                }
+              ]
+            },
+            {
+              "type": "code-block",
+              "lang": "javascript",
+              "children": [
+                {
+                  "type": "code-line",
+                  "children": [
+                    {
+                      "text": "app.get('/say/hello', helloHandler);"
+                    }
+                  ]
+                },
+                {
+                  "type": "code-line",
+                  "children": [
+                    {
+                      "text": "app.post('/say/world', worldHandler);"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "file",
+          "file": "routes/index.js",
+          "display": true,
+          "id": "g47bKboRCY",
+          "children": [
+            {
+              "type": "explain",
+              "fixed": true,
+              "children": [
+                {
+                  "type": "heading-three",
+                  "children": [
+                    {
+                      "text": "正式实现"
+                    }
+                  ],
+                  "id": "CMtQBylrUA"
+                },
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": "到了动手环节，首先创建 routes 目录，用于存放所有的子路由。创建 routes/index.js 文件，代码如下："
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "diff-block",
+              "file": "routes/index.js",
+              "commit": "fc4e804",
+              "hiddenLines": [],
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "explain",
+              "fixed": true,
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "file",
+          "file": "routes/api.js",
+          "display": true,
+          "id": "R9XW3eq3mW",
+          "children": [
+            {
+              "type": "explain",
+              "fixed": true,
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": "创建 routes/api.js，代码如下："
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "diff-block",
+              "file": "routes/api.js",
+              "commit": "fc4e804",
+              "hiddenLines": [],
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "explain",
+              "fixed": true,
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "file",
+          "file": "server.js",
+          "display": true,
+          "id": "5fDPv8cyH4",
+          "children": [
+            {
+              "type": "explain",
+              "fixed": true,
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": "最后我们把 server.js 中老的路由定义全部删掉，替换成刚刚实现的两个 "
+                    },
+                    {
+                      "code": true,
+                      "text": "Router"
+                    },
+                    {
+                      "text": "，代码如下："
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "diff-block",
+              "file": "server.js",
+              "commit": "fc4e804",
+              "hiddenLines": [
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                19,
+                43,
+                44,
+                45,
+                46,
+                47,
+                48,
+                49,
+                50,
+                51,
+                52
+              ],
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "explain",
+              "fixed": true,
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": "是不是瞬间清爽了很多呢！如果你服务器还开着，可以测试一下之前的路由是否还能成功运行哦。这里我贴一下用 Curl 测试 "
+                    },
+                    {
+                      "code": true,
+                      "text": "/api"
+                    },
+                    {
+                      "text": " 路由的结果："
+                    }
+                  ]
+                },
+                {
+                  "type": "code-block",
+                  "lang": "bash",
+                  "children": [
+                    {
+                      "type": "code-line",
+                      "children": [
+                        {
+                          "text": "$ curl localhost:3000/api"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "code-line",
+                      "children": [
+                        {
+                          "text": "{\"name\":\"图雀社区\",\"website\":\"https://tuture.co\"}"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "code-line",
+                      "children": [
+                        {
+                          "text": "$ curl -X POST localhost:3000/api/new"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "code-line",
+                      "children": [
+                        {
+                          "text": "{\"msg\":\"新的篇章，即将开始\"}"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "explain",
+          "fixed": true,
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "text": "至此，这篇教程也就结束了。所完成的网站的确很简单，但是希望你能从中学到 Express 的两大精髓：路由和中间件。掌握了这两大概念之后，后续进阶教程的学习也会轻松很多哦！"
+                }
+              ]
+            },
+            {
+              "type": "note",
+              "level": "primary",
+              "children": [
+                {
+                  "type": "paragraph",
+                  "children": [
+                    {
+                      "text": "此教程属于"
+                    },
+                    {
+                      "link": true,
+                      "url": "https://tuture.co/roadmaps/node/",
+                      "text": "Node.js 后端工程师学习路线"
+                    },
+                    {
+                      "text": "的一部分，点击可查看全部内容。"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
