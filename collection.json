@@ -3,15 +3,10 @@
   "description": "Node.js 已经成为 Web 后台开发圈一股不容忽视的力量，凭借其良好的异步性能、丰富的 npm 库以及 JavaScript 语言方面的优势，已经成为了很多大公司开发其后台架构的重要技术之一，而 Express 框架则是其中知名度最高、也是最受欢迎的后端开发框架。在这篇教程中，你将了解 Express 在 Node 内置 http 模块的基础上做了怎样的封装，并掌握路由和中间件这两个关键概念，学习和使用模板引擎、静态文件服务、错误处理和 JSON API，最终开发出一个简单的个人简历网站。",
   "id": "cd5b993",
   "cover": ".tuture/assets/cover.png",
+  "github": "https://github.com/mRcfps/express_resume",
   "created": "2019-11-26T12:31:31.116Z",
-  "topics": [
-    "Express"
-  ],
-  "categories": [
-    "后端",
-    "Node.js",
-    "入门"
-  ],
+  "topics": ["Express"],
+  "categories": ["后端", "Node.js", "入门"],
   "articles": [
     {
       "name": "一杯茶的时间，上手 Express 框架开发",
@@ -19,14 +14,8 @@
       "id": "cd5b993",
       "cover": ".tuture/assets/cover.png",
       "created": "2019-11-26T12:31:31.116Z",
-      "topics": [
-        "Express"
-      ],
-      "categories": [
-        "后端",
-        "Node.js",
-        "入门"
-      ]
+      "topics": ["Express"],
+      "categories": ["后端", "Node.js", "入门"]
     }
   ],
   "steps": [
@@ -2055,15 +2044,7 @@
               "type": "diff-block",
               "file": "server.js",
               "commit": "f331722",
-              "hiddenLines": [
-                0,
-                1,
-                2,
-                18,
-                19,
-                20,
-                21
-              ],
+              "hiddenLines": [0, 1, 2, 18, 19, 20, 21],
               "children": [
                 {
                   "type": "paragraph",
@@ -2497,11 +2478,7 @@
               "type": "diff-block",
               "file": "server.js",
               "commit": "5ed1e6c",
-              "hiddenLines": [
-                14,
-                15,
-                16
-              ],
+              "hiddenLines": [14, 15, 16],
               "children": [
                 {
                   "type": "paragraph",
@@ -3443,19 +3420,7 @@
               "type": "diff-block",
               "file": "package.json",
               "commit": "5ed1e6c",
-              "hiddenLines": [
-                0,
-                1,
-                2,
-                3,
-                4,
-                5,
-                6,
-                7,
-                8,
-                18,
-                19
-              ],
+              "hiddenLines": [0, 1, 2, 3, 4, 5, 6, 7, 8, 18, 19],
               "children": [
                 {
                   "type": "paragraph",
@@ -3869,9 +3834,7 @@
               "type": "diff-block",
               "file": "views/contact.hbs",
               "commit": "b8585d2",
-              "hiddenLines": [
-                5
-              ],
+              "hiddenLines": [5],
               "children": [
                 {
                   "type": "paragraph",
