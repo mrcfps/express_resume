@@ -1,62 +1,62 @@
 [
   {
     "localPath": ".tuture/assets/image.png",
-    "hostingUri": "https://imgkr.cn-bj.ufileos.com/79616195-2d5a-4234-896f-71dd42ca6212.png"
+    "hostingUri": "https://static.tuture.co/c/cd5b993/image.png"
   },
   {
     "localPath": ".tuture/assets/middleware.png",
-    "hostingUri": "https://imgkr.cn-bj.ufileos.com/9320ddd8-103d-485d-81bb-f97df8a3f4e4.png"
+    "hostingUri": "https://static.tuture.co/c/cd5b993/middleware.png"
   },
   {
     "localPath": ".tuture/assets/index.png",
-    "hostingUri": "https://imgkr.cn-bj.ufileos.com/ecde159f-8530-4885-a451-8cc74c1acefb.png"
+    "hostingUri": "https://static.tuture.co/c/cd5b993/index.png"
   },
   {
     "localPath": ".tuture/assets/contact.png",
-    "hostingUri": "https://imgkr.cn-bj.ufileos.com/8d01feb1-d659-44b2-b74b-168b54c25e75.png"
+    "hostingUri": "https://static.tuture.co/c/cd5b993/contact.png"
   },
   {
     "localPath": ".tuture/assets/index-with-style.png",
-    "hostingUri": "https://imgkr.cn-bj.ufileos.com/7f93ab81-3696-4ea2-a2d2-a4e54d50d7cb.png"
+    "hostingUri": "https://static.tuture.co/c/cd5b993/index-with-style.png"
   },
   {
     "localPath": ".tuture/assets/contact-with-style.png",
-    "hostingUri": "https://imgkr.cn-bj.ufileos.com/6e4e1e86-66bc-4aab-a481-467ebee0db4a.png"
+    "hostingUri": "https://static.tuture.co/c/cd5b993/contact-with-style.png"
   },
   {
     "localPath": ".tuture/assets/raw-404.png",
-    "hostingUri": "https://imgkr.cn-bj.ufileos.com/2fe717a9-4127-47bf-b47b-6d7a996179cf.png"
+    "hostingUri": "https://static.tuture.co/c/cd5b993/raw-404.png"
   },
   {
     "localPath": ".tuture/assets/middleware-new.png",
-    "hostingUri": "https://imgkr.cn-bj.ufileos.com/e99ce67c-49fb-4da4-a1f8-4cbaf4462b5c.png"
+    "hostingUri": "https://static.tuture.co/c/cd5b993/middleware-new.png"
   },
   {
     "localPath": ".tuture/assets/raw-broken.png",
-    "hostingUri": "https://imgkr.cn-bj.ufileos.com/ed792972-167c-454d-bf14-0ca4f1da94b2.png"
+    "hostingUri": "https://static.tuture.co/c/cd5b993/raw-broken.png"
   },
   {
     "localPath": ".tuture/assets/raw-500.png",
-    "hostingUri": "https://imgkr.cn-bj.ufileos.com/9070a311-3e3c-4833-bdf0-7fb070af256d.png"
+    "hostingUri": "https://static.tuture.co/c/cd5b993/raw-500.png"
   },
   {
     "localPath": ".tuture/assets/not-found.png",
-    "hostingUri": "https://imgkr.cn-bj.ufileos.com/fff7404d-8d05-4087-ae89-3fac13f81478.png"
+    "hostingUri": "https://static.tuture.co/c/cd5b993/not-found.png"
   },
   {
     "localPath": ".tuture/assets/broken.png",
-    "hostingUri": "https://imgkr.cn-bj.ufileos.com/cb2dbc4b-ec45-40a2-9a50-d13dc96dc2e3.png"
+    "hostingUri": "https://static.tuture.co/c/cd5b993/broken.png"
   },
   {
     "localPath": ".tuture/assets/api.png",
-    "hostingUri": "https://imgkr.cn-bj.ufileos.com/ef9d5803-8a3a-4abf-b880-ee6d3e4515d9.png"
+    "hostingUri": "https://static.tuture.co/c/cd5b993/api.png"
   },
   {
     "localPath": ".tuture/assets/cover.png",
-    "hostingUri": "https://imgkr.cn-bj.ufileos.com/0a27015f-ebc3-43cd-ac6d-8a6cd6e85881.png"
+    "hostingUri": "https://static.tuture.co/c/cd5b993/cover.png"
   },
   {
     "localPath": ".tuture/assets/cover.png",
-    "hostingUri": "https://imgkr.cn-bj.ufileos.com/d24cf250-0851-4655-a03f-56c716aa70d6.png"
+    "hostingUri": "https://static.tuture.co/c/cd5b993/cover.png"
   }
 ]
